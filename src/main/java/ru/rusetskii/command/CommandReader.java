@@ -2,24 +2,35 @@ package ru.rusetskii.command;
 
 import ru.rusetskii.command.exception.InvalidCommandException;
 
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Reads the string and returns the list of paramteres
+ */
 public class CommandReader {
 
-    private String command;
+    private final String commandString;
 
-    public CommandReader(String command) {
-        this.command = command;
+    /**
+     * Default constructor
+     *
+     * @param commandString
+     */
+    public CommandReader(String commandString) {
+        this.commandString = commandString;
     }
 
+    /**
+     * Transforms commandString string into parameters list by space
+     * @return
+     * @throws InvalidCommandException
+     */
     public List<String> readCommand() throws InvalidCommandException {
-        if (!command.trim().isEmpty()) {
-            return List.of(command.split("\\s+"));
+        if (!commandString.trim().isEmpty()) {
+            return List.of(commandString.split("\\s+"));
         }
         else {
             throw new InvalidCommandException("Command is empty!");
         }
     }
-
 }

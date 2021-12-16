@@ -1,6 +1,6 @@
 package ru.rusetskii;
 
-import ru.rusetskii.atm.Cash;
+import ru.rusetskii.atm.DenominationStorage;
 import ru.rusetskii.atm.CashStorage;
 import ru.rusetskii.command.*;
 import ru.rusetskii.command.exception.CommandExecutionException;
@@ -8,8 +8,8 @@ import ru.rusetskii.command.exception.InvalidCommandException;
 import ru.rusetskii.command.implementation.AddNotesCommand;
 import ru.rusetskii.command.implementation.GetCashCommand;
 import ru.rusetskii.command.implementation.PrintCashCommand;
-import ru.rusetskii.command.validator.CashNumberValidator;
-import ru.rusetskii.command.validator.CashTypeValidator;
+import ru.rusetskii.command.validator.AmountValidator;
+import ru.rusetskii.command.validator.DenominationValidator;
 import ru.rusetskii.command.validator.CurrencyValidator;
 import ru.rusetskii.command.validator.Validator;
 import ru.rusetskii.input.ConsoleInput;
@@ -21,33 +21,42 @@ import ru.rusetskii.output.OutputSystem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Cash Machine basic emulator
  */
 public class CashMachine {
+    private final static Logger LOGGER = Logger.getLogger();
     private final InputSystem inputSystem;
     private final OutputSystem outputSystem;
-
-    private Map<String, Command> commands;
-    private CashStorage cashStorage;
+    private final Map<String, Command> commands;
+    private final CashStorage cashStorage;
 
     /**
      * CashMachine constructor
      */
     public CashMachine() {
+        // replace with another I/O system
         this.inputSystem = new ConsoleInput();
         this.outputSystem = new ConsoleOutput();
+
         this.commands = new HashMap<>();
         this.cashStorage = new CashStorage();
 
-        // init commands with validators
-        Validator currencyValidator = new CurrencyValidator();
-        Validator cashTypeValidator = new CashTypeValidator();
-        Validator cashNumberValidator = new CashNumberValidator();
+        commandsInit();
+    }
 
-        Command AddNotesCmd = new AddNotesCommand(List.of(currencyValidator, cashTypeValidator, cashNumberValidator));
-        Command GetCashCmd = new GetCashCommand(List.of(currencyValidator, cashNumberValidator));
+    /**
+     * Initializes commands with their validators
+     */
+    private void commandsInit() {
+        Validator currencyValidator = new CurrencyValidator();
+        Validator denominationValidator = new DenominationValidator();
+        Validator amountValidator = new AmountValidator();
+
+        Command AddNotesCmd = new AddNotesCommand(List.of(currencyValidator, denominationValidator, amountValidator));
+        Command GetCashCmd = new GetCashCommand(List.of(currencyValidator, amountValidator));
         Command PrintCashCmd = new PrintCashCommand();
 
         this.commands.put("+", AddNotesCmd);
@@ -58,7 +67,7 @@ public class CashMachine {
     /**
      * Main loop of Cash Machine execution
      *
-     * @throws OutputException if occurred output exception
+     * @throws OutputException           if occurred output exception
      * @throws CommandExecutionException if exception is thrown during command execution
      */
     public void run() throws OutputException, CommandExecutionException {
@@ -67,12 +76,13 @@ public class CashMachine {
             CommandReader reader = new CommandReader(inputLine);
             try {
                 List<String> params = reader.readCommand();
+                // gets the command by its operation
                 Command command = commands.get(params.get(0));
+                // retrieve the params
                 command.setParams(params.subList(1, params.size()));
                 if (command.validate()) {
                     command.execute(this);
-                }
-                else {
+                } else {
                     outputSystem.sendError();
                 }
             } catch (InvalidCommandException e) {
@@ -84,13 +94,13 @@ public class CashMachine {
     /**
      * Add cash to the cash storage
      *
-     * @param currency currency code
-     * @param value    banknote value
-     * @param number   number of banknotes
+     * @param currency     currency code
+     * @param denomination banknote value
+     * @param amount       number of banknotes
      * @throws OutputException if exception occurred during writing output stream
      */
-    public void addNotes(String currency, int value, int number) throws OutputException {
-        cashStorage.addNotes(currency, value, number);
+    public void addNotes(String currency, int denomination, int amount) throws OutputException {
+        cashStorage.addNotes(currency, denomination, amount);
         outputSystem.sendOk();
     }
 
@@ -98,14 +108,16 @@ public class CashMachine {
      * Get cash from the cash storage
      *
      * @param currency currency code
-     * @param number   number of banknotes
+     * @param amount   number of banknotes
      * @throws OutputException if exception occurred during writing output stream
      */
-    public void getCash(String currency, int number) throws OutputException {
-        Cash cash = cashStorage.getCash(currency, number);
-        if (cash != null) {
-            for (int value : cash.getValues()) {
-                outputSystem.sendMessage(String.format("%s %s %s", currency, value, cash.getNumber(value)));
+    public void getCash(String currency, int amount) throws OutputException {
+        DenominationStorage cashAfterWithdrawal = cashStorage.getCash(currency, amount);
+        if (cashAfterWithdrawal != null) {
+            for (int denomination : cashAfterWithdrawal.getDenominations()) {
+                int numberOfBanknotes = cashAfterWithdrawal.getAmountByDenomination(denomination);
+                // display leftovers
+                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, numberOfBanknotes));
             }
             outputSystem.sendOk();
         } else {
@@ -119,10 +131,11 @@ public class CashMachine {
      * @throws OutputException if exception occurred during writing output stream
      */
     public void printCash() throws OutputException {
-        for (String currency : cashStorage.getValues()) {
-            Cash cashByCurrency = cashStorage.getCash(currency);
-            for (int value : cashByCurrency.getValues()) {
-                outputSystem.sendMessage(String.format("%s %s %s", currency, value, cashByCurrency.getNumber(value)));
+        for (String currency : cashStorage.getCurrencies()) {
+            DenominationStorage cashOfCertainCurrency = cashStorage.getCash(currency);
+            for (int denomination : cashOfCertainCurrency.getDenominations()) {
+                int numberOfBanknotes = cashOfCertainCurrency.getAmountByDenomination(denomination);
+                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, numberOfBanknotes));
             }
         }
         outputSystem.sendOk();

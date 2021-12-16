@@ -1,6 +1,6 @@
 package ru.rusetskii.command.validator;
 
-public class CashNumberValidator implements Validator {
+public class AmountValidator implements Validator {
 
     /**
      * Checks validity of the parameter

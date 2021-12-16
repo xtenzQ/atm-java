@@ -5,42 +5,57 @@ import java.util.Map;
 import java.util.Set;
 
 public class CashStorage  {
-    private Map<String, Cash> currencyCash = new HashMap<>();
+    // <currency, <denomination, amount>>
+    private final Map<String, DenominationStorage> cashStorage = new HashMap<>();
 
-    public void addNotes(String currency, int value, int number) {
-        Cash cash;
-        if (currencyCash.containsKey(currency)) {
-            cash = currencyCash.get(currency);
+    /**
+     * Deposit cash to cash machine
+     *
+     * @param currency cash currency
+     * @param denomination
+     * @param amount
+     */
+    public void addNotes(String currency, int denomination, int amount) {
+        DenominationStorage cash;
+        if (cashStorage.containsKey(currency)) {
+            cash = cashStorage.get(currency);
         }
         else {
-            cash = new Cash();
+            cash = new DenominationStorage();
         }
-        cash.add(value, number);
-        currencyCash.put(currency, cash);
+        cash.addByDenomination(denomination, amount);
+        cashStorage.put(currency, cash);
     }
 
-    public Cash getCash(String currency, int number) {
-        if (!currencyCash.containsKey(currency)) {
+    /**
+     * Withdraw cash from cash machine
+     *
+     * @param currency cash currency
+     * @param amount amount of money
+     * @return
+     */
+    public DenominationStorage getCash(String currency, int amount) {
+        if (!cashStorage.containsKey(currency)) {
             return null;
         }
 
         // concurrentModificationException possibility
-        Cash cash = currencyCash.get(currency).clone();
-        Cash newCash = new Cash();
+        DenominationStorage cash = cashStorage.get(currency).clone();
+        DenominationStorage newCash = new DenominationStorage();
 
-        for (int value : currencyCash.get(currency).getValues()) {
-            while (number >= value && cash.contains(value)) {
-                cash.pop(value, 1);
-                newCash.add(value, 1);
-                number -= value;
+        for (int value : cashStorage.get(currency).getDenominations()) {
+            while (amount >= value && cash.contains(value)) {
+                cash.subByDenomination(value, 1);
+                newCash.addByDenomination(value, 1);
+                amount -= value;
             }
         }
 
-        if (number == 0) {
+        if (amount == 0) {
             if (cash.isEmpty()) {
-                currencyCash.remove(currency);
+                cashStorage.remove(currency);
             } else {
-                currencyCash.put(currency, cash);
+                cashStorage.put(currency, cash);
             }
             return newCash;
         } else {
@@ -48,11 +63,16 @@ public class CashStorage  {
         }
     }
 
-    public Set<String> getValues() {
-        return currencyCash.keySet();
+    /**
+     *
+     *
+     * @return
+     */
+    public Set<String> getCurrencies() {
+        return cashStorage.keySet();
     }
 
-    public Cash getCash(String currency) {
-        return currencyCash.get(currency).clone();
+    public DenominationStorage getCash(String currency) {
+        return cashStorage.get(currency).clone();
     }
 }

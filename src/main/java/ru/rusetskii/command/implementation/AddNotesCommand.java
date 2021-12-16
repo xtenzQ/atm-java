@@ -9,14 +9,25 @@ import ru.rusetskii.output.OutputException;
 import java.util.List;
 
 /**
- *
+ * Adds banknotes to the cash storage of the cash machine
  */
 public class AddNotesCommand extends Command {
 
+    /**
+     * Default constructor
+     *
+     * @param validators validators
+     */
     public AddNotesCommand(List<Validator> validators) {
         super(validators);
     }
 
+    /**
+     * Calls business logic method to deposit money into the Cash Machine
+     *
+     * @param cashMachine provides Cash Machine to call business logic methods
+     * @throws CommandExecutionException exception thrown during command execution
+     */
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {

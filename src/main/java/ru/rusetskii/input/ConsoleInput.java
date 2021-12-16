@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements InputSystem {
 
-    private Scanner stream;
+    private final Scanner stream;
 
     public ConsoleInput() {
         this.stream = new Scanner(System.in);
