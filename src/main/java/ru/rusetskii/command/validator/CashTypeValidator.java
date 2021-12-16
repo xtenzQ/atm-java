@@ -1,6 +1,13 @@
 package ru.rusetskii.command.validator;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CashTypeValidator implements Validator {
+
+    public static final List<String> validValues = Arrays.asList(
+            "1","5","10","50","100","500","1000","5000"
+    );
 
     /**
      * Checks validity of the parameter
@@ -10,6 +17,6 @@ public class CashTypeValidator implements Validator {
      */
     @Override
     public boolean isValid(String param) {
-        return false;
+        return validValues.contains(param);
     }
 }

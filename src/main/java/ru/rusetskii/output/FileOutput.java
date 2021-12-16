@@ -8,7 +8,7 @@ public class FileOutput implements OutputSystem {
      * @throws OutputException if an exception occurred
      */
     @Override
-    public void ok() throws OutputException {
+    public void sendOk() throws OutputException {
 
     }
 
@@ -18,7 +18,7 @@ public class FileOutput implements OutputSystem {
      * @throws OutputException if an exception occurred
      */
     @Override
-    public void error() throws OutputException {
+    public void sendError() throws OutputException {
 
     }
 
@@ -29,7 +29,7 @@ public class FileOutput implements OutputSystem {
      * @throws OutputException if an exception occurred
      */
     @Override
-    public void message(String message) throws OutputException {
+    public void sendMessage(String message) throws OutputException {
 
     }
 }

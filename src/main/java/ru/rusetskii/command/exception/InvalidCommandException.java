@@ -1,4 +1,4 @@
-package ru.rusetskii.command;
+package ru.rusetskii.command.exception;
 
 public class InvalidCommandException extends Exception {
     public InvalidCommandException(String message) {

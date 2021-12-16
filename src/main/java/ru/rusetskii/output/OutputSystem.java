@@ -7,14 +7,14 @@ public interface OutputSystem {
      *
      * @throws OutputException if an exception occurred
      */
-    void ok() throws OutputException;
+    void sendOk() throws OutputException;
 
     /**
      * Send ERROR message to the output
      *
      * @throws OutputException if an exception occurred
      */
-    void error() throws OutputException;
+    void sendError() throws OutputException;
 
     /**
      * Send message to the output
@@ -22,5 +22,5 @@ public interface OutputSystem {
      * @param message information message
      * @throws OutputException if an exception occurred
      */
-    void message(String message) throws OutputException;
+    void sendMessage(String message) throws OutputException;
 }

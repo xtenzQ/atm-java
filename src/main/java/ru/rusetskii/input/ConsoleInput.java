@@ -1,6 +1,5 @@
 package ru.rusetskii.input;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 /**
@@ -8,10 +7,10 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements InputSystem {
 
-    private InputStream stream;
+    private Scanner stream;
 
-    public ConsoleInput(InputStream stream) {
-        this.stream = stream;
+    public ConsoleInput() {
+        this.stream = new Scanner(System.in);
     }
 
     /**
@@ -21,6 +20,6 @@ public class ConsoleInput implements InputSystem {
      */
     @Override
     public String input() {
-        return new Scanner(stream).nextLine();
+        return stream.nextLine();
     }
 }

@@ -1,11 +1,8 @@
 package ru.rusetskii.atm;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
-public class Cash {
+public class Cash implements Cloneable {
     private SortedMap<Integer, Integer> cash = new TreeMap<>(Collections.reverseOrder());
 
     /**
@@ -52,10 +49,10 @@ public class Cash {
 
     public boolean pop(int value, int number) {
         int currentNumber = getNumber(value);
-        if(currentNumber == number) {
-            put(value, currentNumber - number);
-        } else if (currentNumber > number) {
+        if (currentNumber == number) {
             cash.remove(value);
+        } else if (currentNumber > number) {
+            put(value, currentNumber - number);
         } else {
             return false;
         }
@@ -63,4 +60,14 @@ public class Cash {
         return true;
     }
 
+    @Override
+    public Cash clone() {
+        try {
+            Cash cash = (Cash) super.clone();
+            cash.cash = new TreeMap<>(this.cash);
+            return cash;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

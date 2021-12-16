@@ -1,9 +1,5 @@
 package ru.rusetskii.output;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-
 import static ru.rusetskii.output.MessageConstants.*;
 
 /**
@@ -11,55 +7,35 @@ import static ru.rusetskii.output.MessageConstants.*;
  */
 public class ConsoleOutput implements OutputSystem {
 
-    private OutputStream stream;
+    public ConsoleOutput() {
 
-    public ConsoleOutput(OutputStream stream) {
-        this.stream = stream;
     }
 
     /**
      * Send OK message to the output
      *
-     * @throws OutputException if an exception occurred
      */
     @Override
-    public void ok() throws OutputException {
-        try {
-            stream.write(OK.getBytes(StandardCharsets.UTF_8));
-        }
-        catch (IOException exception) {
-            throw new OutputException(exception);
-        }
+    public void sendOk() {
+        System.out.println(OK);
     }
 
     /**
      * Send ERROR message to the output
      *
-     * @throws OutputException if an exception occurred
      */
     @Override
-    public void error() throws OutputException {
-        try {
-            stream.write(ERROR.getBytes(StandardCharsets.UTF_8));
-        }
-        catch (IOException exception) {
-            throw new OutputException(exception);
-        }
+    public void sendError() {
+        System.out.println(ERROR);
     }
 
     /**
      * Send message to the output
      *
      * @param message information message
-     * @throws OutputException if an exception occurred
      */
     @Override
-    public void message(String message) throws OutputException {
-        try {
-            stream.write(message.getBytes(StandardCharsets.UTF_8));
-        }
-        catch (IOException exception) {
-            throw new OutputException(exception);
-        }
+    public void sendMessage(String message) {
+        System.out.println(message);
     }
 }

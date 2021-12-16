@@ -19,23 +19,24 @@ public class CashStorage  {
         currencyCash.put(currency, cash);
     }
 
-    public Cash getCash(String currency, int amount) {
+    public Cash getCash(String currency, int number) {
         if (!currencyCash.containsKey(currency)) {
             return null;
         }
 
-        Cash cash = currencyCash.get(currency);
+        // concurrentModificationException possibility
+        Cash cash = currencyCash.get(currency).clone();
         Cash newCash = new Cash();
 
-        for (int banknotesValue : currencyCash.get(currency).getValues()) {
-            while (amount >= banknotesValue && cash.contains(banknotesValue)) {
-                cash.pop(banknotesValue, 1);
-                newCash.add(banknotesValue, 1);
-                amount -= banknotesValue;
+        for (int value : currencyCash.get(currency).getValues()) {
+            while (number >= value && cash.contains(value)) {
+                cash.pop(value, 1);
+                newCash.add(value, 1);
+                number -= value;
             }
         }
 
-        if (amount == 0) {
+        if (number == 0) {
             if (cash.isEmpty()) {
                 currencyCash.remove(currency);
             } else {
@@ -51,7 +52,7 @@ public class CashStorage  {
         return currencyCash.keySet();
     }
 
-    public Cash getCash(String currencyCode) {
-        return currencyCash.get(currencyCode);
+    public Cash getCash(String currency) {
+        return currencyCash.get(currency).clone();
     }
 }
