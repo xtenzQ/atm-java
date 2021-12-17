@@ -5,6 +5,9 @@ import ru.rusetskii.command.Command;
 import ru.rusetskii.command.exception.CommandExecutionException;
 import ru.rusetskii.output.OutputException;
 
+/**
+ *
+ */
 public class PrintCashCommand extends Command {
 
     public PrintCashCommand() { }

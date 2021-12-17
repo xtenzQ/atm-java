@@ -18,7 +18,7 @@ public class AddNotesCommand extends Command {
      *
      * @param validators validators
      */
-    public AddNotesCommand(List<Validator> validators) {
+    public AddNotesCommand(Validator...validators) {
         super(validators);
     }
 
@@ -31,11 +31,13 @@ public class AddNotesCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            // currency, value, number
-            cashMachine.addNotes(getParams().get(0), Integer.parseInt(getParams().get(1)), Integer.parseInt(getParams().get(2)));
+            String currency = getParams().get(0);
+            int denomination = Integer.parseInt(getParams().get(1));
+            int amount = Integer.parseInt(getParams().get(2));
+            cashMachine.addNotes(currency, denomination, amount);
         }
-        catch (OutputException exception) {
-            throw new CommandExecutionException(exception);
+        catch (OutputException e) {
+            throw new CommandExecutionException(e);
         }
     }
 }

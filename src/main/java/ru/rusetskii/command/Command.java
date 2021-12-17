@@ -4,13 +4,14 @@ import ru.rusetskii.CashMachine;
 import ru.rusetskii.command.exception.CommandExecutionException;
 import ru.rusetskii.command.validator.Validator;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Command description class
  */
 public abstract class Command {
-    // params can only be initialized after object creation
+    // params can only be initialized after object creation, so we only initialize validators in the constructor
     private List<String> params;
     private List<Validator> validators;
 
@@ -25,12 +26,31 @@ public abstract class Command {
      *
      * @param validators initialize the list of validators
      */
-    public Command(List<Validator> validators) {
-        this.validators = validators;
+    public Command(Validator...validators) {
+        this.validators = Arrays.asList(validators);
     }
 
     /**
-     * Command's business logic execution
+     * Retrieves the params of the command
+     * Available only for its children
+     *
+     * @return parameters of the command
+     */
+    protected List<String> getParams() {
+        return params;
+    }
+
+    /**
+     * Sets parameters of the command
+     *
+     * @param params command parameters
+     */
+    public void setParams(List<String> params) {
+        this.params = params;
+    }
+
+    /**
+     * Command's business logic
      *
      * @param cashMachine business logic methods execution
      * @throws CommandExecutionException exception thrown during command execution
@@ -38,7 +58,7 @@ public abstract class Command {
     public abstract void execute(CashMachine cashMachine) throws CommandExecutionException;
 
     /**
-     * Implements the common validation mechanism for all commands
+     * Default implementation of the common validation mechanism
      *
      * @return if validation is successful
      */
@@ -56,24 +76,5 @@ public abstract class Command {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Sets parameters of the command
-     *
-     * @param params parameteres
-     */
-    public void setParams(List<String> params) {
-        this.params = params;
-    }
-
-    /**
-     * Retrieves the params of the command
-     * Available only for its children
-     *
-     * @return parameters of the command
-     */
-    protected List<String> getParams() {
-        return params;
     }
 }

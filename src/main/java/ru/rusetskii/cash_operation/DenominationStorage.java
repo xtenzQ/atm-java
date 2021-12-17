@@ -1,13 +1,22 @@
-package ru.rusetskii.atm;
+package ru.rusetskii.cash_operation;
 
 import java.util.*;
 
 /**
- *
+ * Contains methods to work with the denominations of the specific currency
+ * Represents the unit of CashStorage class
  */
 public class DenominationStorage implements Cloneable {
-    // Sorted in a reverse order <denomination, amount>
-    private SortedMap<Integer, Integer> denominationStorage = new TreeMap<>(Collections.reverseOrder());
+    // Stores sorted <denomination, amount> in a reverse order to maintain withdrawal principle to withdraw bigger
+    // banknotes first
+    private SortedMap<Integer, Integer> denominationStorage;
+
+    /**
+     * Default constructor
+     */
+    public DenominationStorage() {
+        denominationStorage = new TreeMap<>(Collections.reverseOrder());
+    }
 
     /**
      * Checks if denomination is in the storage
@@ -48,16 +57,6 @@ public class DenominationStorage implements Cloneable {
     }
 
     /**
-     * Puts new denomination to the current storage
-     *
-     * @param denomination banknote denomination
-     * @param amount       amount of banknotes
-     */
-    public void put(int denomination, int amount) {
-        denominationStorage.put(denomination, amount);
-    }
-
-    /**
      * Adds banknotes of the specified denomination
      *
      * @param denomination banknote denomination
@@ -67,7 +66,7 @@ public class DenominationStorage implements Cloneable {
         if (denominationStorage.containsKey(denomination)) {
             amount = amount + denominationStorage.get(denomination);
         }
-        put(denomination, amount);
+        denominationStorage.put(denomination, amount);
     }
 
     /**
@@ -83,7 +82,7 @@ public class DenominationStorage implements Cloneable {
             // remove denomination from the storage
             denominationStorage.remove(denomination);
         } else if (cashAmountOfCurrentDenomination > amount) {
-            put(denomination, cashAmountOfCurrentDenomination - amount);
+            denominationStorage.put(denomination, cashAmountOfCurrentDenomination - amount);
         } else {
             return false;
         }
@@ -93,9 +92,9 @@ public class DenominationStorage implements Cloneable {
     @Override
     public DenominationStorage clone() {
         try {
-            DenominationStorage cash = (DenominationStorage) super.clone();
-            cash.denominationStorage = new TreeMap<>(this.denominationStorage);
-            return cash;
+            DenominationStorage denominationStorage = (DenominationStorage) super.clone();
+            denominationStorage.denominationStorage = new TreeMap<>(this.denominationStorage);
+            return denominationStorage;
         } catch (CloneNotSupportedException e) {
             return null;
         }

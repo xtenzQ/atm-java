@@ -1,5 +1,5 @@
 package ru.rusetskii.command.validator;
 
 /**
- * Validators that check vailidity of the command parameter
+ * Validators that check validity of the command parameter
  */

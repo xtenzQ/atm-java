@@ -8,17 +8,30 @@ import ru.rusetskii.output.OutputException;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class GetCashCommand extends Command {
 
-    public GetCashCommand(List<Validator> validators) {
+    /**
+     *
+     * @param validators
+     */
+    public GetCashCommand(Validator...validators) {
         super(validators);
     }
 
+    /**
+     *
+     * @param cashMachine business logic methods execution
+     * @throws CommandExecutionException
+     */
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            // currency, number
-            cashMachine.getCash(getParams().get(0), Integer.parseInt(getParams().get(1)));
+            String currency = getParams().get(0);
+            int amount = Integer.parseInt(getParams().get(1));
+            cashMachine.getCash(currency, amount);
         } catch (OutputException e) {
             throw new CommandExecutionException(e);
         }

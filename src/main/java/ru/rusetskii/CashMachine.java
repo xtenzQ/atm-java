@@ -1,16 +1,18 @@
 package ru.rusetskii;
 
-import ru.rusetskii.atm.DenominationStorage;
-import ru.rusetskii.atm.CashStorage;
-import ru.rusetskii.command.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.rusetskii.cash_operation.CashStorage;
+import ru.rusetskii.cash_operation.DenominationStorage;
+import ru.rusetskii.command.Command;
+import ru.rusetskii.command.CommandReader;
 import ru.rusetskii.command.exception.CommandExecutionException;
 import ru.rusetskii.command.exception.InvalidCommandException;
 import ru.rusetskii.command.implementation.AddNotesCommand;
 import ru.rusetskii.command.implementation.GetCashCommand;
 import ru.rusetskii.command.implementation.PrintCashCommand;
-import ru.rusetskii.command.validator.AmountValidator;
+import ru.rusetskii.command.validator.RegexValidator;
 import ru.rusetskii.command.validator.DenominationValidator;
-import ru.rusetskii.command.validator.CurrencyValidator;
 import ru.rusetskii.command.validator.Validator;
 import ru.rusetskii.input.ConsoleInput;
 import ru.rusetskii.input.InputSystem;
@@ -21,15 +23,16 @@ import ru.rusetskii.output.OutputSystem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Cash Machine basic emulator
  */
 public class CashMachine {
-    private final static Logger LOGGER = Logger.getLogger();
+    private static Logger logger = LogManager.getLogger(CashMachine.class.getName());
+
     private final InputSystem inputSystem;
     private final OutputSystem outputSystem;
+    // <operation, command>
     private final Map<String, Command> commands;
     private final CashStorage cashStorage;
 
@@ -37,26 +40,25 @@ public class CashMachine {
      * CashMachine constructor
      */
     public CashMachine() {
-        // replace with another I/O system
+        // replace with any other I/O system
         this.inputSystem = new ConsoleInput();
         this.outputSystem = new ConsoleOutput();
 
         this.commands = new HashMap<>();
         this.cashStorage = new CashStorage();
-
-        commandsInit();
+        configure();
     }
 
     /**
-     * Initializes commands with their validators
+     * Initializes commands with the corresponding validators
      */
-    private void commandsInit() {
-        Validator currencyValidator = new CurrencyValidator();
-        Validator denominationValidator = new DenominationValidator();
-        Validator amountValidator = new AmountValidator();
+    private void configure() {
+        Validator currencyValidator = new RegexValidator("[A-Z]{3}");
+        Validator amountValidator = new RegexValidator("[1-9][0-9]*");
+        Validator denominationValidator = new DenominationValidator("1","5","10","50","100","500","1000","5000");
 
-        Command AddNotesCmd = new AddNotesCommand(List.of(currencyValidator, denominationValidator, amountValidator));
-        Command GetCashCmd = new GetCashCommand(List.of(currencyValidator, amountValidator));
+        Command AddNotesCmd = new AddNotesCommand(currencyValidator, denominationValidator, amountValidator);
+        Command GetCashCmd = new GetCashCommand(currencyValidator, amountValidator);
         Command PrintCashCmd = new PrintCashCommand();
 
         this.commands.put("+", AddNotesCmd);
@@ -73,6 +75,7 @@ public class CashMachine {
     public void run() throws OutputException, CommandExecutionException {
         while (true) {
             String inputLine = inputSystem.input();
+            logger.info("Input command : " + inputLine);
             CommandReader reader = new CommandReader(inputLine);
             try {
                 List<String> params = reader.readCommand();
@@ -84,9 +87,11 @@ public class CashMachine {
                     command.execute(this);
                 } else {
                     outputSystem.sendError();
+                    logger.error("Error on validation");
                 }
             } catch (InvalidCommandException e) {
                 outputSystem.sendError();
+                logger.error("Error while executing command : " + e);
             }
         }
     }
@@ -102,6 +107,7 @@ public class CashMachine {
     public void addNotes(String currency, int denomination, int amount) throws OutputException {
         cashStorage.addNotes(currency, denomination, amount);
         outputSystem.sendOk();
+        logger.info("Cash deposit successful");
     }
 
     /**
@@ -115,13 +121,15 @@ public class CashMachine {
         DenominationStorage cashAfterWithdrawal = cashStorage.getCash(currency, amount);
         if (cashAfterWithdrawal != null) {
             for (int denomination : cashAfterWithdrawal.getDenominations()) {
-                int numberOfBanknotes = cashAfterWithdrawal.getAmountByDenomination(denomination);
+                int currentAmount = cashAfterWithdrawal.getAmountByDenomination(denomination);
                 // display leftovers
-                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, numberOfBanknotes));
+                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, currentAmount));
+                logger.info(String.format("Successful cash withdrawal : %s %d %d", currency, denomination, currentAmount));
             }
             outputSystem.sendOk();
         } else {
             outputSystem.sendError();
+            logger.error("Error occurred while withdrawing cash");
         }
     }
 
@@ -134,10 +142,12 @@ public class CashMachine {
         for (String currency : cashStorage.getCurrencies()) {
             DenominationStorage cashOfCertainCurrency = cashStorage.getCash(currency);
             for (int denomination : cashOfCertainCurrency.getDenominations()) {
-                int numberOfBanknotes = cashOfCertainCurrency.getAmountByDenomination(denomination);
-                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, numberOfBanknotes));
+                int amount = cashOfCertainCurrency.getAmountByDenomination(denomination);
+                outputSystem.sendMessage(String.format("%s %d %d", currency, denomination, amount));
+                logger.info(String.format("%s %d %d", currency, denomination, amount));
             }
         }
         outputSystem.sendOk();
+        logger.info("Balance print successful");
     }
 }

@@ -1,4 +1,4 @@
-package ru.rusetskii.atm;
+package ru.rusetskii.cash_operation;
 
 /**
  * Package implements cash manipulations

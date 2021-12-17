@@ -5,11 +5,11 @@ import ru.rusetskii.command.exception.InvalidCommandException;
 import java.util.List;
 
 /**
- * Reads the string and returns the list of paramteres
+ * Reads the string and returns the list of parameters
  */
 public class CommandReader {
 
-    private final String commandString;
+    private String commandString;
 
     /**
      * Default constructor

@@ -3,11 +3,20 @@ package ru.rusetskii.command.validator;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Implementation of
+ */
 public class DenominationValidator implements Validator {
 
-    public static final List<String> validValues = Arrays.asList(
-            "1","5","10","50","100","500","1000","5000"
-    );
+    private List<String> values;
+
+    /**
+     *
+     * @param values
+     */
+    public DenominationValidator(String...values) {
+        this.values = Arrays.asList(values);
+    }
 
     /**
      * Checks validity of the parameter
@@ -17,6 +26,6 @@ public class DenominationValidator implements Validator {
      */
     @Override
     public boolean isValid(String param) {
-        return validValues.contains(param);
+        return values.contains(param);
     }
 }
