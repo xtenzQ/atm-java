@@ -1,4 +1,4 @@
-# KMSLH test task
+# KMS Lighthouse test task
 
 ## 1. Problem decomposition
 
