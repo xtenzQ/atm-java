@@ -13,7 +13,7 @@ import java.util.Set;
  * </ul>
  */
 public class CashStorage {
-    private final Map<String, DenominationStorage> cashStorage;
+    private Map<String, DenominationStorage> cashStorage;
 
     /**
      * Creates new {@link HashMap} object to store cash information in the format of &lt;Currency,
@@ -21,6 +21,10 @@ public class CashStorage {
      */
     public CashStorage() {
         cashStorage = new HashMap<>();
+    }
+
+    public CashStorage(Map<String, DenominationStorage> cashStorage) {
+        this.cashStorage = cashStorage;
     }
 
     /**
@@ -41,16 +45,6 @@ public class CashStorage {
         }
         denominationStorage.addByDenomination(denomination, amount);
         cashStorage.put(currency, denominationStorage);
-    }
-
-    /**
-     * Returns denomination storage by the given currency
-     *
-     * @param currency currency code of the banknotes to return
-     * @return banknotes of specified currency
-     */
-    public DenominationStorage getCash(String currency) {
-        return cashStorage.get(currency).clone();
     }
 
     /**
@@ -90,6 +84,16 @@ public class CashStorage {
     }
 
     /**
+     * Returns denomination storage by the given currency
+     *
+     * @param currency currency code of the banknotes to return
+     * @return banknotes of specified currency
+     */
+    public DenominationStorage getCashByCurrency(String currency) {
+        return cashStorage.get(currency).clone();
+    }
+
+    /**
      * Returns set of all currencies stored in cash storage
      *
      * @return set of currencies
@@ -99,12 +103,58 @@ public class CashStorage {
     }
 
     /**
-     * Returns true if
+     * Returns true if currency is found in the storage
      *
      * @param currency the currency code to check
      * @return <code>true</code> if currency exists in the cash storage; <code>false</code> otherwise.
      */
     public boolean containsKey(String currency) {
         return cashStorage.containsKey(currency);
+    }
+
+    /**
+     * Checks storage for emptiness
+     *
+     * @return <code>true</code> if empty; <code>false</code> otherwise.
+     */
+    public boolean isEmpty() {
+        return cashStorage.isEmpty();
+    }
+
+    /**
+     * Returns size of the cash storage
+     *
+     * @return cash storage size
+     */
+    public int size() {
+        return cashStorage.size();
+    }
+
+    /**
+     *
+     * @return
+     */
+    private Map<String, DenominationStorage> get() {
+        return this.cashStorage;
+    }
+
+    /**
+     *
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof CashStorage)) {
+            return false;
+        }
+
+        Map<String, DenominationStorage> objectMap = ((CashStorage) object).get();
+        Map<String, DenominationStorage> me = this.get();
+        return objectMap.equals(me);
     }
 }

@@ -4,7 +4,7 @@
     <Properties>
         <Property name="filename">test.log</Property>
     </Properties>
-    <Filter type="ThresholdFilter" level="info"/>
+    <Filter type="ThresholdFilter" level="all"/>
 
     <Appenders>
         <Appender type="File" name="File" fileName="${filename}">
@@ -15,9 +15,12 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="org.apache.logging.log4j.test" level="info" additivity="false">
+        <Logger name="ru.rusetskii" level="info" additivity="false">
             <AppenderRef ref="File"/>
         </Logger>
+        <Root level="info">
+            <AppenderRef ref="File"/>
+        </Root>
     </Loggers>
 
 </Configuration>

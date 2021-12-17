@@ -35,11 +35,10 @@ import java.util.Map;
  *     <li>cash storage initialization;</li>
  *     <li>basic user interface (such as console);</li>
  *     <li>business logic methods;</li>
- * </ul>stores I/O settings, commands settings (such as command signature and validators),
- *
+ * </ul>
  */
 public class CashMachine {
-    private static Logger logger = LogManager.getLogger(CashMachine.class.getName());
+    private static Logger logger = LogManager.getLogger(CashMachine.class.getName());;
 
     private final InputSystem inputSystem;
     private final OutputSystem outputSystem;
@@ -65,7 +64,7 @@ public class CashMachine {
      * {@link ParametersMismatchException} will be thrown in the {@link #run} method.
      *
      * Also, after command initialization, add command to the command storage {@link #commands} with its correspoding
-     * operator (<code>"+"</code>, <code>"-"</code>, etc).
+     * operator (<code>+</code>, <code>-</code>, etc.).
      */
     private void configure() {
         Validator currencyValidator = new RegexValidator("[A-Z]{3}");
@@ -83,12 +82,13 @@ public class CashMachine {
 
     /**
      * Main loop of Cash Machine execution.
-     * <p>
-     * 1. Reads command line from the {@link InputSystem}
-     * 2. Parses the command via {@link CommandReader}
-     * 3. Returns command by its operator from the {@link #commands} list
-     * 4. Sets the parameters of the command
-     * 5. Validates and executes the command
+     * <ol>
+     *      <li>Reads command line from the {@link InputSystem}</li>
+     *      <li>Parses the command via {@link CommandReader}</li>
+     *      <li>Returns command by its operator from the {@link #commands} list</li>
+     *      <li>Sets the parameters of the command</li>
+     *      <li>Validates and executes the command</li>
+     * </ol>
      *
      * @throws OutputException             if occurred output exception
      * @throws ParametersMismatchException if validation fails
@@ -101,9 +101,8 @@ public class CashMachine {
             CommandReader reader = new CommandReader(inputLine);
             try {
                 List<String> params = reader.readCommand();
-                // gets the command by its operation
+                logger.info("Parameters : " + String.join(", ", params));
                 Command command = commands.get(params.get(0));
-                // retrieve the params
                 command.setParams(params.subList(1, params.size()));
                 if (command.validate()) {
                     command.execute(this);
@@ -163,7 +162,7 @@ public class CashMachine {
      */
     public void printCash() throws OutputException {
         for (String currency : cashStorage.getCurrencies()) {
-            DenominationStorage cashOfCertainCurrency = cashStorage.getCash(currency);
+            DenominationStorage cashOfCertainCurrency = cashStorage.getCashByCurrency(currency);
             for (int denomination : cashOfCertainCurrency.getDenominations()) {
                 int amount = cashOfCertainCurrency.getAmountByDenomination(denomination);
                 String infoMessage = String.format("%s %d %d", currency, denomination, amount);

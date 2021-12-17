@@ -1,32 +1,17 @@
 package ru.rusetskii.cashmachine.cash_operation;
 
-import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class DenominationStorageTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @Test
-    public void contains() {
-    }
-
-    @Test
-    public void getDenominations() {
-    }
-
-    @Test
-    public void getAmountByDenomination() {
-    }
-
-    @Test
-    public void isEmpty() {
-    }
-
     @Test
     public void addByDenomination() {
+        DenominationStorage actual = new DenominationStorage();
+        actual.addByDenomination(100, 10);
+        actual.addByDenomination(100, 2);
+        actual.addByDenomination(10, 5);
     }
 
     @Test

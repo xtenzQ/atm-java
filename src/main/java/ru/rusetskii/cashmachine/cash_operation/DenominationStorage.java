@@ -6,7 +6,9 @@ import java.util.*;
  * Represents banknotes of the specific currency stored by its denomination
  * Is unit of a CashStorage class
  * <p>
- * Denomination Storage implements methods to work with it's internal storage which is similar to {@link CashStorage}
+ * Denomination Storage implements methods to work with its internal storage which is similar to {@link CashStorage}
+ *
+ * Also, class implements {@link Cloneable} interface to override {@link #clone} method so we can clone its field as well.
  */
 public class DenominationStorage implements Cloneable {
     private SortedMap<Integer, Integer> denominationStorage;
@@ -16,7 +18,15 @@ public class DenominationStorage implements Cloneable {
      * to withdraw bigger banknotes first
      */
     public DenominationStorage() {
-        denominationStorage = new TreeMap<>(Collections.reverseOrder());
+        this.denominationStorage = new TreeMap<>(Collections.reverseOrder());
+    }
+
+    /**
+     *
+     * @param denominationStorage
+     */
+    public DenominationStorage(SortedMap<Integer, Integer> denominationStorage) {
+        this.denominationStorage = denominationStorage;
     }
 
     /**
@@ -88,6 +98,15 @@ public class DenominationStorage implements Cloneable {
     }
 
     /**
+     * Returns the size of denomination storage
+     *
+     * @return size of the map
+     */
+    public int size() {
+        return denominationStorage.size();
+    }
+
+    /**
      * Clones {@link DenominationStorage} with its field
      *
      * @return copy of DenominationStorage
@@ -103,5 +122,35 @@ public class DenominationStorage implements Cloneable {
         } catch (CloneNotSupportedException e) {
             return null;
         }
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private SortedMap<Integer, Integer> get() {
+        return this.denominationStorage;
+    }
+
+    /**
+     * Compares two DenominationStorage objects
+     *
+     * @param object another DenominationStorage object
+     * @return <code>true</code> if objects are equal; <code>false</code> otherwise.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof DenominationStorage)) {
+            return false;
+        }
+
+        SortedMap<Integer, Integer> objectMap = ((DenominationStorage) object).get();
+        SortedMap<Integer, Integer> me = this.get();
+        return objectMap.equals(me);
     }
 }
