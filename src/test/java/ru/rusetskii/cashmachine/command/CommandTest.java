@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 public class CommandTest {
@@ -60,6 +60,6 @@ public class CommandTest {
         Validator subSetValidator = new SubsetValidator("10");
         SomeCommand command = new SomeCommand(regexValidator, subSetValidator);
         command.setParams(params);
-        assertTrue(command.validate());
+        assertFalse(command.validate());
     }
 }

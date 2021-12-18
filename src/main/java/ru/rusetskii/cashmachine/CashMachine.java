@@ -33,6 +33,9 @@ import java.util.Map;
  *     <li>basic user interface (such as console);</li>
  *     <li>business logic methods;</li>
  * </ul>
+ *
+ * Commands pattern implementation
+ *
  */
 public class CashMachine {
     private static Logger logger = LogManager.getLogger(CashMachine.class.getName());;
@@ -100,7 +103,6 @@ public class CashMachine {
                     logger.error("Error on validation");
                 }
             } catch (Exception e) {
-                outputSystem.sendError();
                 logger.error("Error while executing command : " + e);
             }
         }
