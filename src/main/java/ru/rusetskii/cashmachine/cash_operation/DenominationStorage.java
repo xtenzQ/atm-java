@@ -1,6 +1,7 @@
 package ru.rusetskii.cashmachine.cash_operation;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 /**
  * Represents banknotes of the specific currency stored by its denomination
@@ -19,14 +20,6 @@ public class DenominationStorage implements Cloneable {
      */
     public DenominationStorage() {
         this.denominationStorage = new TreeMap<>(Collections.reverseOrder());
-    }
-
-    /**
-     *
-     * @param denominationStorage
-     */
-    public DenominationStorage(SortedMap<Integer, Integer> denominationStorage) {
-        this.denominationStorage = denominationStorage;
     }
 
     /**
@@ -85,6 +78,14 @@ public class DenominationStorage implements Cloneable {
      */
     public Set<Integer> getDenominations() {
         return denominationStorage.keySet();
+    }
+
+    /**
+     * Sorts denomination storage by creating new map and then copying it to the new tree map
+     */
+    public void sortAscending() {
+        // TODO: looks awful
+        denominationStorage = new TreeMap<>(new HashMap<>(denominationStorage));
     }
 
     /**

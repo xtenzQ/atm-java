@@ -152,6 +152,7 @@ public class CashMachine {
     public void print() throws OutputException {
         for (String currency : cashStorage.getCurrencies()) {
             DenominationStorage cashOfCertainCurrency = cashStorage.getCashByCurrency(currency);
+            cashOfCertainCurrency.sortAscending();
             for (int denomination : cashOfCertainCurrency.getDenominations()) {
                 int amount = cashOfCertainCurrency.getAmountByDenomination(denomination);
                 String infoMessage = String.format("%s %d %d", currency, denomination, amount);

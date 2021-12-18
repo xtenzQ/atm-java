@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="CashMachine" default="run">
+    <property name="src" location="src" />
+    <property name="docs" location="doc" />
+    <property name="build" location="target" />
+    <property name="classes" location="${build}/classes" />
+
+    <target name="compile">
+        <mkdir dir="${classes}" />
+        <javac srcdir="${src}" destdir="${classes}" includeAntRuntime="false"/>
+    </target>
+    <target name="run" depends="compile">
+        <java classname="${ant.project.name}" classpath="${classes}"/>
+    </target>
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+    <target name="package" depends="compile">
+        <jar destfile="${build}/${ant.project.name}.jar" basedir="${classes}" excludes="*Test.class">
+            <manifest>
+                <attribute name="Main–Class" value="${ant.project.name}"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="test" depends="compile">
+        <junit>
+            <classpath>
+                <pathelement location="${classes}"/>
+            </classpath>
+            <test name="TestCashMachine"/>
+        </junit>
+    </target>
+</project>

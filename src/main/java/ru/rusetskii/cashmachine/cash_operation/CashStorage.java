@@ -24,15 +24,6 @@ public class CashStorage {
     }
 
     /**
-     * Creates new CashStorage object and initializes it with the pre-existing Map
-     *
-     * @param cashStorage cashStorage object
-     */
-    public CashStorage(Map<String, DenominationStorage> cashStorage) {
-        this.cashStorage = cashStorage;
-    }
-
-    /**
      * Adds banknotes of the specified denomination to the cash storage if currency exists or creates new denomination
      * storage and then adds banknotes
      *

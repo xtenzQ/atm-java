@@ -115,7 +115,7 @@ public class DenominationStorageTest {
     }
 
     @Test
-    public void testEqualsDS() {
+    public void testEquals() {
         DenominationStorage actual = new DenominationStorage();
         actual.addByDenomination(100, 5);
         actual.addByDenomination(100, 7);
@@ -135,6 +135,28 @@ public class DenominationStorageTest {
         Map<Integer, Integer> expected = new TreeMap<>();
         expected.put(100, 5);
 
-        assertEquals(actual, expected);
+        assertTrue(actual.equals(expected));
+    }
+
+    @Test
+    public void testEqualsNotDenominationOrMap() {
+        DenominationStorage actual = new DenominationStorage();
+        actual.addByDenomination(100, 5);
+        assertFalse(actual.equals(0));
+    }
+
+    @Test
+    public void testEqualsItself() {
+        DenominationStorage actual = new DenominationStorage();
+        assertTrue(actual.equals(actual));
+    }
+
+    @Test
+    public void testClone() {
+        DenominationStorage actual = new DenominationStorage();
+        actual.addByDenomination(100, 5);
+
+        DenominationStorage clone = actual.clone();
+        assertEquals(actual, clone);
     }
 }
