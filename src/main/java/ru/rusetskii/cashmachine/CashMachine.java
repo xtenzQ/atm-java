@@ -7,7 +7,6 @@ import ru.rusetskii.cashmachine.cash_operation.DenominationStorage;
 import ru.rusetskii.cashmachine.command.Command;
 import ru.rusetskii.cashmachine.command.CommandReader;
 import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
-import ru.rusetskii.cashmachine.command.exception.InvalidCommandException;
 import ru.rusetskii.cashmachine.command.exception.ParametersMismatchException;
 import ru.rusetskii.cashmachine.command.implementation.AddNotesCommand;
 import ru.rusetskii.cashmachine.command.implementation.GetCashCommand;

@@ -18,6 +18,10 @@ import static org.mockito.Mockito.mock;
 public class CommandTest {
 
     private class SomeCommand extends Command {
+        public SomeCommand() {
+
+        }
+
         public SomeCommand(Validator...validators) {
             super(validators);
         }

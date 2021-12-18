@@ -1,7 +1,6 @@
 package ru.rusetskii.cashmachine.cash_operation;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicMarkableReference;
 
 /**
  * Represents banknotes of the specific currency stored by its denomination

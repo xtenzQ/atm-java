@@ -69,10 +69,10 @@ public class CashStorage {
         }
 
         if (amount == 0) {
-            if (!denominationStorage.isEmpty()) {
-                cashStorage.put(currency, denominationStorage);
-            } else {
+            if (denominationStorage.isEmpty()) {
                 cashStorage.remove(currency);
+            } else {
+                cashStorage.put(currency, denominationStorage);
             }
             return withdrawnDenominationStorage;
         } else {

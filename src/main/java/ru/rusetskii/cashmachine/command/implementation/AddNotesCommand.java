@@ -18,7 +18,7 @@ public class AddNotesCommand extends Command {
     public AddNotesCommand() {
         super(new RegexValidator("[A-Z]{3}"),
                 new SubsetValidator("1","5","10","50","100","500","1000","5000"),
-              new RegexValidator("[1-9][0-9]*"));
+                new RegexValidator("[1-9][0-9]*"));
     }
 
     /**
