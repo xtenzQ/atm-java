@@ -53,9 +53,9 @@ public class DenominationStorage implements Cloneable {
     }
 
     /**
+     * Returns Denomination Storage object
      *
-     *
-     * @return
+     * @return Denomination Storage
      */
     private SortedMap<Integer, Integer> get() {
         return this.denominationStorage;
@@ -84,7 +84,7 @@ public class DenominationStorage implements Cloneable {
      * Sorts denomination storage by creating new map and then copying it to the new tree map
      */
     public void sortAscending() {
-        // TODO: looks awful
+        // looks awful but it works
         denominationStorage = new TreeMap<>(new HashMap<>(denominationStorage));
     }
 

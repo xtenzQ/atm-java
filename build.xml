@@ -1,33 +1,130 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="CashMachine" default="run">
-    <property name="src" location="src" />
-    <property name="docs" location="doc" />
-    <property name="build" location="target" />
-    <property name="classes" location="${build}/classes" />
+<project name="cashmachine" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <target name="compile">
-        <mkdir dir="${classes}" />
-        <javac srcdir="${src}" destdir="${classes}" includeAntRuntime="false"/>
+    <!--
+    ================
+    Build properties
+    ================
+    -->
+    <property name="src.dir"          location="src/main/java"/>
+    <property name="resources.dir"    location="src/main/resources"/>
+    <property name="test.src.dir"     location="src/test/java"/>
+    <property name="build.dir"        location="build"/>
+    <property name="classes.dir"      location="${build.dir}/classes"/>
+    <property name="test.classes.dir" location="${build.dir}/test-classes"/>
+    <property name="ivy.reports.dir"  location="${build.dir}/ivy-reports"/>
+    <property name="test.reports.dir" location="${build.dir}/test-reports"/>
+    <property name="dist.dir"         location="${build.dir}/dist"/>
+
+    <property name="jar.main.class" value="ru.rusetskii.cashmachine.Main"/>
+    <property name="jar.file"       value="${dist.dir}/${ant.project.name}.jar"/>
+
+    <available classname="org.apache.ivy.Main" property="ivy.installed"/>
+
+    <!--
+    ===========
+    Build setup
+    ===========
+    -->
+    <target name="install-ivy" description="Install ivy" unless="ivy.installed">
+        <mkdir dir="${user.home}/.ant/lib"/>
+        <get dest="${user.home}/.ant/lib/ivy.jar" src="https://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
+        <fail message="Ivy has been installed. Run the build again"/>
     </target>
-    <target name="run" depends="compile">
-        <java classname="${ant.project.name}" classpath="${classes}"/>
+
+    <target name="resolve" depends="install-ivy" description="Use ivy to resolve classpaths">
+        <ivy:resolve/>
+
+        <ivy:report todir='${ivy.reports.dir}' graph='false' xml='false'/>
+
+        <ivy:cachepath pathid="compile.path" conf="compile"/>
+        <ivy:cachepath pathid="test.path"    conf="test"/>
     </target>
-    <target name="clean">
-        <delete dir="${build}"/>
+
+    <!--
+    ===============
+    Compile targets
+    ===============
+    -->
+    <target name="resources" description="Copy resources into classpath">
+        <copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}"/>
+        </copy>
     </target>
-    <target name="package" depends="compile">
-        <jar destfile="${build}/${ant.project.name}.jar" basedir="${classes}" excludes="*Test.class">
+
+    <target name="compile" depends="resolve,resources" description="Compile code">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" debug="true" classpathref="compile.path"/>
+    </target>
+
+    <target name="compile-tests" depends="compile" description="Compile tests">
+        <mkdir dir="${test.classes.dir}"/>
+        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" includeantruntime="false" debug="true">
+            <classpath>
+                <path refid="test.path"/>
+                <pathelement path="${classes.dir}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!--
+    ============
+    Test targets
+    ============
+    -->
+    <target name="test" depends="compile-tests" description="Run unit tests">
+        <mkdir dir="${test.reports.dir}"/>
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <path refid="test.path"/>
+                <pathelement path="${classes.dir}"/>
+                <pathelement path="${test.classes.dir}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${test.reports.dir}">
+                <fileset dir="${test.src.dir}">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!--
+    =====================
+    Build and run targets
+    =====================
+    -->
+    <target name="build" depends="test" description="Create executable jar archive">
+        <ivy:retrieve pattern="${dist.dir}/lib/[artifact]-[revision](-[classifier]).[ext]" conf="runtime"/>
+
+        <manifestclasspath property="jar.classpath" jarfile="${jar.file}">
+            <classpath>
+                <fileset dir="${dist.dir}/lib" includes="*.jar"/>
+            </classpath>
+        </manifestclasspath>
+
+        <jar destfile="${jar.file}" basedir="${classes.dir}">
             <manifest>
-                <attribute name="Main–Class" value="${ant.project.name}"/>
+                <attribute name="Main-Class" value="${jar.main.class}" />
+                <attribute name="Class-Path" value="${jar.classpath}" />
             </manifest>
         </jar>
     </target>
-    <target name="test" depends="compile">
-        <junit>
-            <classpath>
-                <pathelement location="${classes}"/>
-            </classpath>
-            <test name="TestCashMachine"/>
-        </junit>
+
+    <target name="run" depends="build" description="Run code">
+        <java jar="${jar.file}" fork="true"/>
     </target>
+
+    <!--
+    =============
+    Clean targets
+    =============
+    -->
+    <target name="clean" description="Cleanup build files">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="clean-all" depends="clean" description="Additionally purge ivy cache">
+        <ivy:cleancache/>
+    </target>
+
 </project>
