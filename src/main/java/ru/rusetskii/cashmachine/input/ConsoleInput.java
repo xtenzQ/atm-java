@@ -24,6 +24,9 @@ public class ConsoleInput implements InputSystem {
      */
     @Override
     public String input() {
-        return stream.nextLine();
+        if (stream.hasNextLine()) {
+            return stream.nextLine();
+        }
+        return null;
     }
 }
