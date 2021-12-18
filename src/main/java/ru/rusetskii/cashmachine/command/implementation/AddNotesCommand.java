@@ -3,7 +3,8 @@ package ru.rusetskii.cashmachine.command.implementation;
 import ru.rusetskii.cashmachine.CashMachine;
 import ru.rusetskii.cashmachine.command.Command;
 import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
-import ru.rusetskii.cashmachine.command.validator.Validator;
+import ru.rusetskii.cashmachine.command.validator.RegexValidator;
+import ru.rusetskii.cashmachine.command.validator.SubsetValidator;
 import ru.rusetskii.cashmachine.output.OutputException;
 
 /**
@@ -13,11 +14,11 @@ public class AddNotesCommand extends Command {
 
     /**
      * Creates deposit command
-     *
-     * @param validators validators
      */
-    public AddNotesCommand(Validator...validators) {
-        super(validators);
+    public AddNotesCommand() {
+        super(new RegexValidator("[A-Z]{3}"),
+              new RegexValidator("[1-9][0-9]*"),
+              new SubsetValidator("1","5","10","50","100","500","1000","5000"));
     }
 
     /**
@@ -33,7 +34,7 @@ public class AddNotesCommand extends Command {
             String currency = getParams().get(0);
             int denomination = Integer.parseInt(getParams().get(1));
             int amount = Integer.parseInt(getParams().get(2));
-            cashMachine.addNotes(currency, denomination, amount);
+            cashMachine.deposit(currency, denomination, amount);
         }
         catch (OutputException e) {
             throw new CommandExecutionException(e);

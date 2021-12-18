@@ -3,7 +3,7 @@ package ru.rusetskii.cashmachine.command.implementation;
 import ru.rusetskii.cashmachine.CashMachine;
 import ru.rusetskii.cashmachine.command.Command;
 import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
-import ru.rusetskii.cashmachine.command.validator.Validator;
+import ru.rusetskii.cashmachine.command.validator.RegexValidator;
 import ru.rusetskii.cashmachine.output.OutputException;
 
 /**
@@ -13,11 +13,10 @@ public class GetCashCommand extends Command {
 
     /**
      * Creates withdrawal command
-     *
-     * @param validators validators
      */
-    public GetCashCommand(Validator...validators) {
-        super(validators);
+    public GetCashCommand() {
+        super(new RegexValidator("[A-Z]{3}"),
+              new RegexValidator("[1-9][0-9]*"));
     }
 
     /**
@@ -31,7 +30,7 @@ public class GetCashCommand extends Command {
         try {
             String currency = getParams().get(0);
             int amount = Integer.parseInt(getParams().get(1));
-            cashMachine.getCash(currency, amount);
+            cashMachine.withdraw(currency, amount);
         } catch (OutputException e) {
             throw new CommandExecutionException(e);
         }

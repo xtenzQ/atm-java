@@ -12,9 +12,6 @@ import ru.rusetskii.cashmachine.command.exception.ParametersMismatchException;
 import ru.rusetskii.cashmachine.command.implementation.AddNotesCommand;
 import ru.rusetskii.cashmachine.command.implementation.GetCashCommand;
 import ru.rusetskii.cashmachine.command.implementation.PrintCashCommand;
-import ru.rusetskii.cashmachine.command.validator.RegexValidator;
-import ru.rusetskii.cashmachine.command.validator.SubsetValidator;
-import ru.rusetskii.cashmachine.command.validator.Validator;
 import ru.rusetskii.cashmachine.input.ConsoleInput;
 import ru.rusetskii.cashmachine.input.InputSystem;
 import ru.rusetskii.cashmachine.output.ConsoleOutput;
@@ -67,17 +64,9 @@ public class CashMachine {
      * operator (<code>+</code>, <code>-</code>, etc.).
      */
     private void configure() {
-        Validator currencyValidator = new RegexValidator("[A-Z]{3}");
-        Validator amountValidator = new RegexValidator("[1-9][0-9]*");
-        Validator denominationValidator = new SubsetValidator("1","5","10","50","100","500","1000","5000");
-
-        Command AddNotesCmd = new AddNotesCommand(currencyValidator, denominationValidator, amountValidator);
-        Command GetCashCmd = new GetCashCommand(currencyValidator, amountValidator);
-        Command PrintCashCmd = new PrintCashCommand();
-
-        this.commands.put("+", AddNotesCmd);
-        this.commands.put("-", GetCashCmd);
-        this.commands.put("?", PrintCashCmd);
+        this.commands.put("+", new AddNotesCommand());
+        this.commands.put("-", new GetCashCommand());
+        this.commands.put("?", new PrintCashCommand());
     }
 
     /**
@@ -125,8 +114,8 @@ public class CashMachine {
      * @param amount       number of banknotes
      * @throws OutputException if exception occurred during writing output stream
      */
-    public void addNotes(String currency, int denomination, int amount) throws OutputException {
-        cashStorage.addNotes(currency, denomination, amount);
+    public void deposit(String currency, int denomination, int amount) throws OutputException {
+        cashStorage.deposit(currency, denomination, amount);
         outputSystem.sendOk();
         logger.info("Cash deposit successful");
     }
@@ -138,8 +127,8 @@ public class CashMachine {
      * @param amount   number of banknotes
      * @throws OutputException if exception occurred during writing output stream
      */
-    public void getCash(String currency, int amount) throws OutputException {
-        DenominationStorage cashAfterWithdrawal = cashStorage.getCash(currency, amount);
+    public void withdraw(String currency, int amount) throws OutputException {
+        DenominationStorage cashAfterWithdrawal = cashStorage.withdraw(currency, amount);
         if (cashAfterWithdrawal != null) {
             for (int denomination : cashAfterWithdrawal.getDenominations()) {
                 int currentAmount = cashAfterWithdrawal.getAmountByDenomination(denomination);
@@ -160,7 +149,7 @@ public class CashMachine {
      *
      * @throws OutputException if exception occurred during writing output stream
      */
-    public void printCash() throws OutputException {
+    public void print() throws OutputException {
         for (String currency : cashStorage.getCurrencies()) {
             DenominationStorage cashOfCertainCurrency = cashStorage.getCashByCurrency(currency);
             for (int denomination : cashOfCertainCurrency.getDenominations()) {

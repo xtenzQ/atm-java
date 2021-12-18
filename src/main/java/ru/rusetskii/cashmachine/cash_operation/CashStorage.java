@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Represents storage of Cash Machine and provides working methods.
- * Simple Cash Machine Dispenser should implement the following functions:
+ * Represents storage of Cash Machine and provides working methods. Simple Cash Machine Dispenser should implement the
+ * following functions:
  * <ul>
  *     <li>Banknotes deposit;</li>
  *     <li>Banknotes withdrawal.</li>
@@ -16,27 +16,32 @@ public class CashStorage {
     private Map<String, DenominationStorage> cashStorage;
 
     /**
-     * Creates new {@link HashMap} object to store cash information in the format of &lt;Currency,
-     * {@link DenominationStorage}&gt; so it allows extracting denomination storage by the currency
+     * Creates new {@link HashMap} object to store cash information in the format of &lt;Currency, {@link
+     * DenominationStorage}&gt; so it allows extracting denomination storage by the currency
      */
     public CashStorage() {
         cashStorage = new HashMap<>();
     }
 
+    /**
+     * Creates new CashStorage object and initializes it with the pre-existing Map
+     *
+     * @param cashStorage cashStorage object
+     */
     public CashStorage(Map<String, DenominationStorage> cashStorage) {
         this.cashStorage = cashStorage;
     }
 
     /**
-     * Adds banknotes of the specified denomination to the cash storage if currency exists or creates new
-     * denomination storage and then adds banknotes
+     * Adds banknotes of the specified denomination to the cash storage if currency exists or creates new denomination
+     * storage and then adds banknotes
      *
      * @param currency     the currency code
      * @param denomination banknote denomination
      * @param amount       cash amount
      * @see DenominationStorage
      */
-    public void addNotes(String currency, int denomination, int amount) {
+    public void deposit(String currency, int denomination, int amount) {
         DenominationStorage denominationStorage;
         if (cashStorage.containsKey(currency)) {
             denominationStorage = cashStorage.get(currency);
@@ -51,20 +56,21 @@ public class CashStorage {
      * Returns new denomination storage which represents the amount of money that were withdrawn
      * <p>
      * Method subtracts one banknote of the biggest denomination and adds this banknote to the copied denomination
-     * storage. If there are no banknotes of the given denomination, methods removes denomination from the cash storage.
+     * storage. If there are no banknotes of the given denomination, methods removes denomination from the cash
+     * storage.
      *
      * @param currency currency code
      * @param amount   amount of cash to withdraw
      * @return amount of cash withdrawn
      */
-    public DenominationStorage getCash(String currency, int amount) {
+    public DenominationStorage withdraw(String currency, int amount) {
         if (!cashStorage.containsKey(currency)) return null;
 
         DenominationStorage denominationStorage = cashStorage.get(currency).clone();
         DenominationStorage withdrawnDenominationStorage = new DenominationStorage();
 
         for (int denomination : cashStorage.get(currency).getDenominations()) {
-            while (denominationStorage.contains(denomination) && amount >= denomination) {
+            while (denominationStorage.containsDenomination(denomination) && amount >= denomination) {
                 denominationStorage.subByDenomination(denomination, 1);
                 withdrawnDenominationStorage.addByDenomination(denomination, 1);
                 amount = amount - denomination;
@@ -108,7 +114,7 @@ public class CashStorage {
      * @param currency the currency code to check
      * @return <code>true</code> if currency exists in the cash storage; <code>false</code> otherwise.
      */
-    public boolean containsKey(String currency) {
+    public boolean containsCurrency(String currency) {
         return cashStorage.containsKey(currency);
     }
 
@@ -131,7 +137,6 @@ public class CashStorage {
     }
 
     /**
-     *
      * @return
      */
     private Map<String, DenominationStorage> get() {
@@ -139,9 +144,11 @@ public class CashStorage {
     }
 
     /**
+     * Compares current object with another CashStorage
      *
-     * @param object
-     * @return
+     * @param object CashStorage object
+     * @return <code>true</code> if objects are equal;
+     * <code>false</code> otherwise.
      */
     @Override
     public boolean equals(Object object) {

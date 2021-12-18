@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Represents banknotes of the specific currency stored by its denomination
- * Is unit of a CashStorage class
+ * Is unit of a {@link CashStorage} class
  * <p>
  * Denomination Storage implements methods to work with its internal storage which is similar to {@link CashStorage}
  *
@@ -53,19 +53,28 @@ public class DenominationStorage implements Cloneable {
     public void subByDenomination(int denomination, int amount) {
         int cashAmountOfCurrentDenomination = getAmountByDenomination(denomination);
         if (cashAmountOfCurrentDenomination == amount) {
-            // remove denomination from the storage
             denominationStorage.remove(denomination);
         } else if (cashAmountOfCurrentDenomination > amount) {
             denominationStorage.put(denomination, cashAmountOfCurrentDenomination - amount);
         }
     }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private SortedMap<Integer, Integer> get() {
+        return this.denominationStorage;
+    }
+
     /**
      * Returns banknote denomination presence status is in the storage
      *
      * @param denomination banknote denomination
      * @return <code>true</code> if denomination is found; <code>false</code> otherwise.
      */
-    public boolean contains(int denomination) {
+    public boolean containsDenomination(int denomination) {
         return denominationStorage.containsKey(denomination);
     }
 
@@ -125,16 +134,7 @@ public class DenominationStorage implements Cloneable {
     }
 
     /**
-     *
-     *
-     * @return
-     */
-    private SortedMap<Integer, Integer> get() {
-        return this.denominationStorage;
-    }
-
-    /**
-     * Compares two DenominationStorage objects
+     * Compares current object with another Map or DenominationStorage
      *
      * @param object another DenominationStorage object
      * @return <code>true</code> if objects are equal; <code>false</code> otherwise.
@@ -145,12 +145,17 @@ public class DenominationStorage implements Cloneable {
             return true;
         }
 
-        if (!(object instanceof DenominationStorage)) {
+        if (!(object instanceof DenominationStorage || object instanceof Map)) {
             return false;
         }
 
-        SortedMap<Integer, Integer> objectMap = ((DenominationStorage) object).get();
-        SortedMap<Integer, Integer> me = this.get();
-        return objectMap.equals(me);
+        if (object instanceof Map) {
+            return object.equals(this.get());
+        }
+        else {
+            SortedMap<Integer, Integer> objectMap = ((DenominationStorage) object).get();
+            SortedMap<Integer, Integer> me = this.get();
+            return objectMap.equals(me);
+        }
     }
 }

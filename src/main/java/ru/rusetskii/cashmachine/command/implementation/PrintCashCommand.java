@@ -23,7 +23,7 @@ public class PrintCashCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            cashMachine.printCash();
+            cashMachine.print();
         } catch (OutputException e) {
             throw new CommandExecutionException(e);
         }

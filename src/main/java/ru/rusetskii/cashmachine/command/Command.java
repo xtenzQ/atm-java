@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Command is the abstract base class for all commands which allows an application to execute different business logic
+ * Command is the abstract base class for all commands which allows application to execute different business logic
  * A Command object encapsulates the state information needed for the various command operations.
  * This state information includes:
  * <ul>
