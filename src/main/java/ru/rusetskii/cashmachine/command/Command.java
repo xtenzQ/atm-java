@@ -81,7 +81,7 @@ public abstract class Command {
      * @see Validator
      */
     public boolean validate() throws ParametersMismatchException {
-        if (validators == null) return true;
+        if (validators.size() == 0) return true;
         if (params.size() == validators.size()) {
             for (int i = 0; i < validators.size(); i++) {
                 if (!validators.get(i).isValid(params.get(i))) {

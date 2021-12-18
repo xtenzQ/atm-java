@@ -128,7 +128,9 @@ public class CashStorage {
     }
 
     /**
-     * @return
+     * Returns CashStorage object
+     *
+     * @return CashStorage
      */
     private Map<String, DenominationStorage> get() {
         return this.cashStorage;

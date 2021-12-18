@@ -34,8 +34,6 @@
     <target name="resolve" depends="install-ivy" description="Use ivy to resolve classpaths">
         <ivy:resolve/>
 
-        <ivy:report todir='${ivy.reports.dir}' graph='false' xml='false'/>
-
         <ivy:cachepath pathid="compile.path" conf="compile"/>
         <ivy:cachepath pathid="test.path"    conf="test"/>
     </target>

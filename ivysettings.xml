@@ -5,7 +5,6 @@
                  root="file://${user.home}/.m2/repository"
                  changingPattern=".*SNAPSHOT"/>
         <ibiblio name="my-maven" m2compatible="true" root="https://repo1.maven.org/maven2/"/>
-        <!--<ibiblio name="staging" m2compatible="true" root="https://oss.sonatype.org/content/repositories/orgagileclick-1008"/>-->
         <ibiblio name="central" m2compatible="true"/>
 
         <filesystem name="local-m2-publish" m2compatible="true">
@@ -21,7 +20,6 @@
         <chain name="default">
             <resolver ref="central"/>
             <resolver ref="my-maven"/>
-            <!--<resolver ref="local-m2"/>-->
         </chain>
     </resolvers>
 </ivysettings>

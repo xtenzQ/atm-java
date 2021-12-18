@@ -83,7 +83,7 @@ public class CashMachine {
      * @throws ParametersMismatchException if validation fails
      * @throws CommandExecutionException   if exception is thrown during command execution
      */
-    public void run() throws OutputException, ParametersMismatchException, CommandExecutionException {
+    public void run() throws OutputException {
         while (true) {
             String inputLine = inputSystem.input();
             logger.info("Input command : " + inputLine);
@@ -99,7 +99,7 @@ public class CashMachine {
                     outputSystem.sendError();
                     logger.error("Error on validation");
                 }
-            } catch (InvalidCommandException e) {
+            } catch (Exception e) {
                 outputSystem.sendError();
                 logger.error("Error while executing command : " + e);
             }
