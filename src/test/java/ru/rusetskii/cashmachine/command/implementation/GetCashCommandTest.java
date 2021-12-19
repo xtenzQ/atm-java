@@ -2,7 +2,6 @@ package ru.rusetskii.cashmachine.command.implementation;
 
 import org.junit.Test;
 import ru.rusetskii.cashmachine.CashMachine;
-import ru.rusetskii.cashmachine.command.CommandArguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,12 +14,15 @@ public class GetCashCommandTest {
 
     @Test
     public void testExecute() throws Exception {
-        CommandArguments commandArguments = new CommandArguments("-", Arrays.asList("USD", "1000"));
-        CashMachine cashMachine = mock(CashMachine.class);
+        List<String> parameters = Arrays.asList("USD", "1000");
+
+        CashMachine atm = mock(CashMachine.class);
+
         GetCashCommand command = new GetCashCommand();
-        command.setParams(commandArguments);
-        command.execute(cashMachine);
-        verify(cashMachine).withdraw(eq("USD"), eq(1000));
+        command.setArgs(parameters);
+        command.execute(atm);
+
+        verify(atm).withdraw(eq("USD"), eq(1000));
     }
 
 }

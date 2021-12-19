@@ -2,9 +2,9 @@ package ru.rusetskii.cashmachine.command;
 
 import ru.rusetskii.cashmachine.CashMachine;
 import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
-import ru.rusetskii.cashmachine.command.exception.InvalidCommandException;
 import ru.rusetskii.cashmachine.command.validator.Validator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,11 +24,14 @@ import java.util.List;
  */
 public abstract class Command {
     private String operation;
-    private CommandArguments params;
+    private List<String> args;
     private List<Validator> validators;
 
-    public String getOperation() {
-        return operation;
+    /**
+     * Default constructor
+     */
+    public Command() {
+
     }
 
     /**
@@ -37,6 +40,7 @@ public abstract class Command {
      */
     public Command(String operation) {
         this.operation = operation;
+        this.args = new ArrayList<>();
     }
 
     /**
@@ -51,26 +55,29 @@ public abstract class Command {
     }
 
     /**
+     *
+     * @return
+     */
+    public String getOperation() {
+        return operation;
+    }
+
+    /**
      * Returns the parameters of the command. Available only for its children.
      *
      * @return commands parameters
      */
-    protected CommandArguments getParams() {
-        return params;
+    protected List<String> getArgs() {
+        return args;
     }
 
     /**
      * Sets parameters of the command
      *
-     * @param params command parameters
+     * @param args command parameters
      */
-    public void setParams(CommandArguments params) throws InvalidCommandException {
-        if (validate(params)) {
-            this.params = params;
-        }
-        else {
-            throw new InvalidCommandException("Invalid arguments!");
-        }
+    public void setArgs(List<String> args) {
+        this.args = args;
     }
 
     /**
@@ -91,15 +98,14 @@ public abstract class Command {
      *
      * Also, mind the order of the validators and the parameters.
      *
-     * @throws InvalidCommandException if parameters number are not equal to the number of validators
      * @return <code>true</code> if validation is successful or validators are empty; <code>false</code> otherwise.
      * @see Validator
      */
-    private boolean validate(CommandArguments params) {
-        if (validators == null) return true;
-        if (params.toListOfStrings().size() != validators.size()) return false;
-        for (int i = 0; i < validators.size(); i++) {
-            if (!validators.get(i).isValid(params.toListOfStrings().get(i))) {
+    public boolean validate() {
+        if (validators == null || args == null) return true;
+        if (args.size() != validators.size()) return false;
+        for (int i = 0; i < args.size(); i++) {
+            if (!validators.get(i).isValid(args.get(i))) {
                 return false;
             }
         }

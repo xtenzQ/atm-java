@@ -32,11 +32,31 @@ public class CommandFactory {
      * @return command from command list
      * @throws InvalidCommandException if arguments are invalid
      */
-    public Command createCommand(CommandArguments commandArguments) throws InvalidCommandException {
+    public Command createCommand(List<String> commandArguments) throws InvalidCommandException {
         Command command = availableCommands.stream().
-                filter(cmd -> cmd.getOperation().equals(commandArguments.getOperation())).findFirst().orElseThrow();
-        command.setParams(commandArguments);
+                filter(cmd -> cmd.getOperation().equals(getOperation(commandArguments))).findFirst().orElseThrow();
+        command.setArgs(getArgs(commandArguments));
         return command;
+    }
+
+    /**
+     * Returns operation code
+     *
+     * @param args list of arguments
+     * @return operation code
+     */
+    public String getOperation(List<String> args) {
+        return args.get(0);
+    }
+
+    /**
+     * Returns list of arguments
+     *
+     * @param args full list of arguments
+     * @return list without operation code
+     */
+    public List<String> getArgs(List<String> args) {
+        return args.subList(1, args.size());
     }
 
 }

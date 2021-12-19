@@ -30,8 +30,8 @@ public class GetCashCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            String currency = getParams().toListOfStrings().get(0);
-            int amount = Integer.parseInt(getParams().toListOfStrings().get(1));
+            String currency = getArgs().get(0);
+            int amount = Integer.parseInt(getArgs().get(1));
             cashMachine.withdraw(currency, amount);
         } catch (OutputException e) {
             throw new CommandExecutionException(e);

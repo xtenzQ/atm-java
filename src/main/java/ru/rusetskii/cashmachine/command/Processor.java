@@ -33,9 +33,14 @@ public class Processor {
      * @throws InvalidCommandException on validation fail
      */
     public void process(String args) throws CommandExecutionException, InvalidCommandException {
-        CommandArguments arguments = parseArguments(args);
+        List<String> arguments = parseArguments(args);
         Command command = commandFactory.createCommand(arguments);
-        command.execute(cashMachine);
+        if (command.validate()) {
+            command.execute(cashMachine);
+        }
+        else {
+            throw new InvalidCommandException("Invalid command!");
+        }
     }
 
     /**
@@ -44,31 +49,13 @@ public class Processor {
      * @return
      * @throws InvalidCommandException
      */
-    private CommandArguments parseArguments(String args) throws InvalidCommandException {
+    private List<String> parseArguments(String args) throws InvalidCommandException {
         if (!args.isEmpty()) {
             List<String> listOfArgs = List.of(args.split("\\s+"));
-            return new CommandArguments(getOperationCode(listOfArgs), getArgs(listOfArgs));
+            return listOfArgs;
         }
         else {
             throw new InvalidCommandException("Command is empty!");
         }
-    }
-
-    /**
-     *
-     * @param args
-     * @return
-     */
-    private String getOperationCode(List<String> args) {
-        return args.get(0);
-    }
-
-    /**
-     *
-     * @param args
-     * @return
-     */
-    private List<String> getArgs(List<String> args) {
-        return args.subList(1, args.size());
     }
 }
