@@ -1,0 +1,8 @@
+ru.rusetskii.cashmachine
+ru.rusetskii.cashmachine.cash_operation
+ru.rusetskii.cashmachine.command
+ru.rusetskii.cashmachine.command.exception
+ru.rusetskii.cashmachine.command.implementation
+ru.rusetskii.cashmachine.command.validator
+ru.rusetskii.cashmachine.input
+ru.rusetskii.cashmachine.output
