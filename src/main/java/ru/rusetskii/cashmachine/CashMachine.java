@@ -38,8 +38,9 @@ public class CashMachine {
 
     /**
      * Creates Cash Machine object and does initialization
-     * @param inputSystem
-     * @param outputSystem
+     *
+     * @param inputSystem input byte stream
+     * @param outputSystem output byte stream
      */
     public CashMachine(InputSystem inputSystem, OutputSystem outputSystem) {
         this.inputSystem = inputSystem;
@@ -50,9 +51,7 @@ public class CashMachine {
     /**
      * Main loop of Cash Machine execution.
      *
-     * @throws OutputException             if occurred output exception
-     * @throws InvalidCommandException     if command validation fails
-     * @throws CommandExecutionException   if exception is thrown during command execution
+     * @throws OutputException if occurred output exception
      */
     public void run() throws OutputException {
         while (inputSystem.inputAvailable()) {
@@ -62,13 +61,7 @@ public class CashMachine {
 
     /**
      * Single step of running loop
-     * <ol>
-     *      <li>Reads command line from the {@link InputSystem}</li>
-     *      <li>Parses the command via {@link CommandReader}</li>
-     *      <li>Returns command by its operator from the {@link #commands} list</li>
-     *      <li>Sets the parameters of the command</li>
-     *      <li>Validates and executes the command</li>
-     * </ol>
+     * *
      * @throws OutputException if occurred output exception
      */
     public void step() throws OutputException {

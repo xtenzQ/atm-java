@@ -6,6 +6,7 @@
     ================
     -->
     <property name="src.dir"          location="src/main/java"/>
+    <property name="doc.dir"          location="doc"/>
     <property name="resources.dir"    location="src/main/resources"/>
     <property name="test.src.dir"     location="src/test/java"/>
     <property name="build.dir"        location="build"/>

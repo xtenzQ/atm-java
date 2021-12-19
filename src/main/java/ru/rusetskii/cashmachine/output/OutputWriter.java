@@ -17,6 +17,8 @@ public class OutputWriter implements OutputSystem {
 
     /**
      * Creates ConsoleOutput object
+     *
+     * @param stream output stream object
      */
     public OutputWriter(OutputStream stream) {
         this.stream = stream;

@@ -31,5 +31,10 @@ public interface OutputSystem {
      */
     void sendMessage(String message) throws OutputException;
 
+    /**
+     * Closes output stream
+     *
+     * @throws OutputException if an exception occurred
+     */
     void close() throws OutputException;
 }

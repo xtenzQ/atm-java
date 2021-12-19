@@ -13,6 +13,7 @@ import java.util.List;
  * A Command object encapsulates the state information needed for the various command operations.
  * This state information includes:
  * <ul>
+ *     <li>The Operation code;</li>
  *     <li>The Parameters;</li>
  *     <li>The Validators used to validate the parameters;</li>
  * </ul>
@@ -35,8 +36,8 @@ public abstract class Command {
     }
 
     /**
-     *
-     * @param operation
+     * Builds Command with the specified operation
+     * @param operation operation code
      */
     public Command(String operation) {
         this.operation = operation;
@@ -44,8 +45,9 @@ public abstract class Command {
     }
 
     /**
-     * Initializes command with the specified list of validators.
+     * Initializes command with the specified operation code and list of validators.
      *
+     * @param operation operation code
      * @param validators the list of validators
      * @see Validator
      */
@@ -55,8 +57,9 @@ public abstract class Command {
     }
 
     /**
+     * Returns operation code
      *
-     * @return
+     * @return operation code
      */
     public String getOperation() {
         return operation;

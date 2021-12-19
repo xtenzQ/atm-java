@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /**
- * Provides console input
+ * Provides stream input
  *
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
@@ -14,8 +14,10 @@ public class InputReader implements InputSystem {
     private Scanner in;
 
     /**
-     * Creates console input object
-     * Initializes new {@link Scanner} since it's console input
+     * Creates input stream object
+     * Initializes new {@link Scanner}
+     *
+     * @param stream input stream-
      */
     public InputReader(InputStream stream) {
         in = new Scanner(stream).useDelimiter("\r\n");
@@ -34,11 +36,21 @@ public class InputReader implements InputSystem {
         return null;
     }
 
+    /**
+     * Closes the stream
+     *
+     * @throws OutputException if error occurred
+     */
     @Override
     public void close() throws OutputException {
         in.close();
     }
 
+    /**
+     * Checks next command availability
+     *
+     * @return <code>true</code> if exists; <code>false</code> otherwise.
+     */
     @Override
     public boolean inputAvailable() {
         if (in.hasNextLine()) {
