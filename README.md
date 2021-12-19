@@ -89,7 +89,3 @@ The rest of the algorithm is a piece of cake. For the deposit we simply add cash
 ### I/O common interface
 
 I created an I/O interface (`InputReader` & `OutputWriter`) and implemented corresponding reader and writer to work with streams. These classes can work both with `System.in`/`System.out` and `FileInputStream`/`FileOutputStream` so we can easily switch between file and console I/O.
-
-# Test coverage
-
-![Test coverage](coverage.png)
