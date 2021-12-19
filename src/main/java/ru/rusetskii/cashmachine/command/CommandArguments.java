@@ -3,7 +3,15 @@ package ru.rusetskii.cashmachine.command;
 import java.util.List;
 
 /**
+ * Represents command arguments
  *
+ * Command argument consists of two common attributes:
+ * <ul>
+ *     <li>{@link #operation}- usually a symbol, but could a string, basically a primary key of an entity;</li>
+ *     <li>{@link #params} - list of parameters (plural).</li>
+ * </ul>
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CommandArguments {
 
@@ -29,8 +37,8 @@ public class CommandArguments {
     }
 
     /**
-     *
-     * @return
+     * Returns list of arguments
+     * @return arguments
      */
     public List<String> toListOfStrings() {
         return params;

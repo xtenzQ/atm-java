@@ -11,6 +11,8 @@ import java.util.Set;
  *     <li>Banknotes deposit;</li>
  *     <li>Banknotes withdrawal.</li>
  * </ul>
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CashStorage {
     private Map<String, DenominationStorage> cashStorage;

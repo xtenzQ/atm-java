@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 /**
  * Provides console input
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class InputReader implements InputSystem {
     private Scanner in;

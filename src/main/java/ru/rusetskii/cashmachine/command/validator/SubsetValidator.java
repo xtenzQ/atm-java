@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Validates if the specified params is in the list
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class SubsetValidator implements Validator {
 

@@ -8,6 +8,8 @@ import ru.rusetskii.cashmachine.output.OutputException;
 
 /**
  * Delegates cash withdrawal to the Cash Machine
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class GetCashCommand extends Command {
 

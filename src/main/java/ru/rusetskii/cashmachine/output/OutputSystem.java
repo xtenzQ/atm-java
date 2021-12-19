@@ -4,6 +4,8 @@ import java.io.IOException;
 
 /**
  * Defines interface for output writing system
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public interface OutputSystem {
 

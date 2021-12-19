@@ -2,6 +2,8 @@ package ru.rusetskii.cashmachine.command.validator;
 
 /**
  * Validates command parameter
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public interface Validator {
 

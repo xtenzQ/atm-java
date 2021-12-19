@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * Stores all available commands and produces commands based on their arguments
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CommandFactory {
     private final List<Command> availableCommands = new ArrayList<>();

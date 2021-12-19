@@ -19,6 +19,8 @@ import java.util.List;
  * <p>
  * Some important points to consider are that parameters can be only initialized after object creation since commands
  * are predefined on initialization.
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public abstract class Command {
     private String operation;
@@ -27,12 +29,6 @@ public abstract class Command {
 
     public String getOperation() {
         return operation;
-    }
-
-    /**
-     * Creates empty command
-     */
-    public Command() {
     }
 
     /**

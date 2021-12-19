@@ -2,6 +2,8 @@ package ru.rusetskii.cashmachine.command.validator;
 
 /**
  * Validates given parameter with regex
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class RegexValidator implements Validator {
 

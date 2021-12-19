@@ -9,6 +9,8 @@ import java.util.*;
  * Denomination Storage implements methods to work with its internal storage which is similar to {@link CashStorage}
  *
  * Also, class implements {@link Cloneable} interface to override {@link #clone} method so we can clone its field as well.
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class DenominationStorage implements Cloneable {
     private SortedMap<Integer, Integer> denominationStorage;

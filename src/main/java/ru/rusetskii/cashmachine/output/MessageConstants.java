@@ -2,6 +2,8 @@ package ru.rusetskii.cashmachine.output;
 
 /**
  * Holds the message constants used for output
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class MessageConstants {
     /**

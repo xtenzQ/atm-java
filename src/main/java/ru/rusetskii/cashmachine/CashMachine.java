@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
  *
  * Commands pattern implementation
  *
- * @author Nikita Rusetskii
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CashMachine {
     private static Logger logger = LogManager.getLogger(CashMachine.class.getName());;
@@ -49,13 +49,6 @@ public class CashMachine {
 
     /**
      * Main loop of Cash Machine execution.
-     * <ol>
-     *      <li>Reads command line from the {@link InputSystem}</li>
-     *      <li>Parses the command via {@link CommandReader}</li>
-     *      <li>Returns command by its operator from the {@link #commands} list</li>
-     *      <li>Sets the parameters of the command</li>
-     *      <li>Validates and executes the command</li>
-     * </ol>
      *
      * @throws OutputException             if occurred output exception
      * @throws InvalidCommandException     if command validation fails
@@ -68,15 +61,21 @@ public class CashMachine {
     }
 
     /**
-     *
-     * @throws OutputException
+     * Single step of running loop
+     * <ol>
+     *      <li>Reads command line from the {@link InputSystem}</li>
+     *      <li>Parses the command via {@link CommandReader}</li>
+     *      <li>Returns command by its operator from the {@link #commands} list</li>
+     *      <li>Sets the parameters of the command</li>
+     *      <li>Validates and executes the command</li>
+     * </ol>
+     * @throws OutputException if occurred output exception
      */
     public void step() throws OutputException {
         String inputLine = inputSystem.input();
         logger.info("Input command : " + inputLine);
         Processor processor = new Processor(this);
         try {
-            if (inputLine == null) return;
             processor.process(inputLine);
         } catch (InvalidCommandException | NoSuchElementException e) {
             outputSystem.sendError();

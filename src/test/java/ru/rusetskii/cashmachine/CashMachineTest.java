@@ -18,10 +18,11 @@ public class CashMachineTest {
 
     @Before
     public void setup() throws IOException {
-        inputStream = new InputReader(new FileInputStream("input.txt"));
-        outputStream = new OutputWriter(new FileOutputStream("actual.txt"));
+        inputStream = new InputReader(new FileInputStream("functest/input.txt"));
+        outputStream = new OutputWriter(new FileOutputStream("functest/actual.txt"));
     }
 
+    // functional test
     @Test
     public void testRun() throws IOException {
         CashMachine cashMachine = new CashMachine(inputStream, outputStream);
@@ -30,8 +31,8 @@ public class CashMachineTest {
         outputStream.close();
         inputStream.close();
 
-        Reader actual = new BufferedReader(new FileReader("actual.txt"));
-        Reader expected = new BufferedReader(new FileReader("expected.txt"));
+        Reader actual = new BufferedReader(new FileReader("functest/actual.txt"));
+        Reader expected = new BufferedReader(new FileReader("functest/expected.txt"));
 
         assertTrue(IOUtils.contentEqualsIgnoreEOL(actual, expected));
 

@@ -7,6 +7,8 @@ import ru.rusetskii.cashmachine.output.OutputException;
 
 /**
  * Delegates balance print to the Cash Machine
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class PrintCashCommand extends Command {
 

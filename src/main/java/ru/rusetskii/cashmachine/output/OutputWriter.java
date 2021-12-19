@@ -8,6 +8,8 @@ import static ru.rusetskii.cashmachine.output.MessageConstants.*;
 
 /**
  * Provides console output
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class OutputWriter implements OutputSystem {
 

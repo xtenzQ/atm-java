@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Takes input parameters, creates command and executes it
+ *
+ * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class Processor {
     private CommandFactory commandFactory;
