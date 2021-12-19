@@ -44,24 +44,18 @@ Reply: line formatted as <denomination> <amount> followed by OK on success, ERRO
 
 ### Build
 
-```
-Ant:
 ```Bash
 ant build
 ```
 
 ### Test
 
-```
-Ant:
 ```Bash
 ant test
 ```
 
 ### Run
 
-```
-Ant:
 ```Bash
 ant run
 ```
