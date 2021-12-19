@@ -42,16 +42,30 @@ Reply: line formatted as <denomination> <amount> followed by OK on success, ERRO
 
 # Run, build and test
 
-### Run
+### Build
 
-Maven:
-```Bash
-mvn build
 ```
 Ant:
 ```Bash
 ant build
 ```
+
+### Test
+
+```
+Ant:
+```Bash
+ant test
+```
+
+### Run
+
+```
+Ant:
+```Bash
+ant run
+```
+
 # Solution
 
 Before coding, we should make a plan:
