@@ -68,7 +68,8 @@ I recommend to check **[Jairo Alfaro's reply](https://stackoverflow.com/a/469681
 ### Deposit/Withdraw strategy
 
 I decided to arrange data in a structure `Map<String, TreeMap<Integer, Integer>>` since we basically have this kind of structure:
-![Structure](struct.jpg)
+
+![Structure](struct.png)
 
 Since we have to pop up bigger banknotes first, we store `Map<Integer, Integer>` in a reverse order. In Java, `TreeMap<Integer, Integer>` stores keys in a natural order, so in our case we should apply `Collections.reverseOrder()` on initialization.
 
