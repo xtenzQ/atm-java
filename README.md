@@ -1,5 +1,7 @@
 # Cash Machine Back End Developer Position Test Task
 
+![Coverage](.github/badges/jacoco.svg)
+
 A friendly reminder: If this repo somehow helped you please **star** 🌟 it! Thank you! 😄
 
 ## Task
