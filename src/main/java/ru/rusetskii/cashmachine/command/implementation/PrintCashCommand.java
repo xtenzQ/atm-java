@@ -13,7 +13,7 @@ public class PrintCashCommand extends Command {
     /**
      * Creates print cash command
      */
-    public PrintCashCommand() { }
+    public PrintCashCommand() { super("?"); }
 
     /**
      * Calls business logic method to print balance

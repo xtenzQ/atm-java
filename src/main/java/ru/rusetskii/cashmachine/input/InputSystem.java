@@ -1,5 +1,7 @@
 package ru.rusetskii.cashmachine.input;
 
+import ru.rusetskii.cashmachine.output.OutputException;
+
 /**
  * Defines the input system methods
  */
@@ -11,4 +13,8 @@ public interface InputSystem {
      * @return command
      */
     String input();
+
+    void close() throws OutputException;
+
+    boolean inputAvailable();
 }

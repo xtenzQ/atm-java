@@ -4,22 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.rusetskii.cashmachine.cash_operation.CashStorage;
 import ru.rusetskii.cashmachine.cash_operation.DenominationStorage;
-import ru.rusetskii.cashmachine.command.Command;
-import ru.rusetskii.cashmachine.command.CommandReader;
+import ru.rusetskii.cashmachine.command.Processor;
 import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
-import ru.rusetskii.cashmachine.command.exception.ParametersMismatchException;
-import ru.rusetskii.cashmachine.command.implementation.AddNotesCommand;
-import ru.rusetskii.cashmachine.command.implementation.GetCashCommand;
-import ru.rusetskii.cashmachine.command.implementation.PrintCashCommand;
-import ru.rusetskii.cashmachine.input.ConsoleInput;
+import ru.rusetskii.cashmachine.command.exception.InvalidCommandException;
 import ru.rusetskii.cashmachine.input.InputSystem;
-import ru.rusetskii.cashmachine.output.ConsoleOutput;
 import ru.rusetskii.cashmachine.output.OutputException;
 import ru.rusetskii.cashmachine.output.OutputSystem;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Cash Machine basic emulator class.
@@ -35,40 +27,24 @@ import java.util.Map;
  *
  * Commands pattern implementation
  *
+ * @author Nikita Rusetskii
  */
 public class CashMachine {
     private static Logger logger = LogManager.getLogger(CashMachine.class.getName());;
 
     private final InputSystem inputSystem;
     private final OutputSystem outputSystem;
-    private final Map<String, Command> commands;
     private final CashStorage cashStorage;
 
     /**
      * Creates Cash Machine object and does initialization
+     * @param inputSystem
+     * @param outputSystem
      */
-    public CashMachine() {
-        this.inputSystem = new ConsoleInput();
-        this.outputSystem = new ConsoleOutput();
-
-        this.commands = new HashMap<>();
+    public CashMachine(InputSystem inputSystem, OutputSystem outputSystem) {
+        this.inputSystem = inputSystem;
+        this.outputSystem = outputSystem;
         this.cashStorage = new CashStorage();
-        configure();
-    }
-
-    /**
-     * Initializes commands with the corresponding validators
-     * <p>
-     * Mind the order of the validators, so it should match the order of the command, otherwise
-     * {@link ParametersMismatchException} will be thrown in the {@link #run} method.
-     *
-     * Also, after command initialization, add command to the command storage {@link #commands} with its correspoding
-     * operator (<code>+</code>, <code>-</code>, etc.).
-     */
-    private void configure() {
-        this.commands.put("+", new AddNotesCommand());
-        this.commands.put("-", new GetCashCommand());
-        this.commands.put("?", new PrintCashCommand());
     }
 
     /**
@@ -82,28 +58,32 @@ public class CashMachine {
      * </ol>
      *
      * @throws OutputException             if occurred output exception
-     * @throws ParametersMismatchException if validation fails
+     * @throws InvalidCommandException     if command validation fails
      * @throws CommandExecutionException   if exception is thrown during command execution
      */
     public void run() throws OutputException {
-        while (true) {
-            String inputLine = inputSystem.input();
-            logger.info("Input command : " + inputLine);
-            CommandReader reader = new CommandReader(inputLine);
-            try {
-                List<String> params = reader.readCommand();
-                logger.info("Parameters : " + String.join(", ", params));
-                Command command = commands.get(params.get(0));
-                command.setParams(params.subList(1, params.size()));
-                if (command.validate()) {
-                    command.execute(this);
-                } else {
-                    outputSystem.sendError();
-                    logger.error("Error on validation");
-                }
-            } catch (Exception e) {
-                logger.error("Error while executing command : " + e);
-            }
+        while (inputSystem.inputAvailable()) {
+            step();
+        }
+    }
+
+    /**
+     *
+     * @throws OutputException
+     */
+    public void step() throws OutputException {
+        String inputLine = inputSystem.input();
+        logger.info("Input command : " + inputLine);
+        Processor processor = new Processor(this);
+        try {
+            if (inputLine == null) return;
+            processor.process(inputLine);
+        } catch (InvalidCommandException | NoSuchElementException e) {
+            outputSystem.sendError();
+            logger.error(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e);
         }
     }
 
@@ -133,8 +113,7 @@ public class CashMachine {
         if (cashAfterWithdrawal != null) {
             for (int denomination : cashAfterWithdrawal.getDenominations()) {
                 int currentAmount = cashAfterWithdrawal.getAmountByDenomination(denomination);
-                // display leftovers
-                String infoMessage = String.format("%s %d %d", currency, denomination, currentAmount);
+                String infoMessage = String.format("%d %d", denomination, currentAmount);
                 outputSystem.sendMessage(infoMessage);
                 logger.info(infoMessage);
             }

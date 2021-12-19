@@ -1,5 +1,7 @@
 package ru.rusetskii.cashmachine.output;
 
+import java.io.IOException;
+
 /**
  * Defines interface for output writing system
  */
@@ -26,4 +28,6 @@ public interface OutputSystem {
      * @throws OutputException if an exception occurred
      */
     void sendMessage(String message) throws OutputException;
+
+    void close() throws OutputException;
 }

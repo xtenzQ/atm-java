@@ -15,7 +15,7 @@ public class GetCashCommand extends Command {
      * Creates withdrawal command
      */
     public GetCashCommand() {
-        super(new RegexValidator("[A-Z]{3}"),
+        super("-", new RegexValidator("[A-Z]{3}"),
               new RegexValidator("[1-9][0-9]*"));
     }
 
@@ -28,8 +28,8 @@ public class GetCashCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            String currency = getParams().get(0);
-            int amount = Integer.parseInt(getParams().get(1));
+            String currency = getParams().toListOfStrings().get(0);
+            int amount = Integer.parseInt(getParams().toListOfStrings().get(1));
             cashMachine.withdraw(currency, amount);
         } catch (OutputException e) {
             throw new CommandExecutionException(e);

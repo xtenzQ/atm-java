@@ -16,7 +16,7 @@ public class AddNotesCommand extends Command {
      * Creates deposit command
      */
     public AddNotesCommand() {
-        super(new RegexValidator("[A-Z]{3}"),
+        super("+", new RegexValidator("[A-Z]{3}"),
                 new SubsetValidator("1","5","10","50","100","500","1000","5000"),
                 new RegexValidator("[1-9][0-9]*"));
     }
@@ -31,9 +31,9 @@ public class AddNotesCommand extends Command {
     @Override
     public void execute(CashMachine cashMachine) throws CommandExecutionException {
         try {
-            String currency = getParams().get(0);
-            int denomination = Integer.parseInt(getParams().get(1));
-            int amount = Integer.parseInt(getParams().get(2));
+            String currency = getParams().toListOfStrings().get(0);
+            int denomination = Integer.parseInt(getParams().toListOfStrings().get(1));
+            int amount = Integer.parseInt(getParams().toListOfStrings().get(2));
             cashMachine.deposit(currency, denomination, amount);
         }
         catch (OutputException e) {
