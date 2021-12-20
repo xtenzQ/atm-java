@@ -1,7 +1,7 @@
 # Cash Machine Back End Developer Position Test Task
 
 [![build](https://github.com/xtenzQ/kmslh-test/actions/workflows/test-coverage.yml/badge.svg)](https://github.com/xtenzQ/kmslh-test/actions/workflows/test-coverage.yml)
-![Coverage](.github/badges/jacoco.svg)
+![Coverage](https://github.com/xtenzQ/kmslh-test/blob/main/.github/badges/jacoco.svg)
 
 A friendly reminder: If this repo somehow helped you please **star** 🌟 it! Thank you! 😄
 
