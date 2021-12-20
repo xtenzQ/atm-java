@@ -15,7 +15,7 @@ import java.util.Set;
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CashStorage {
-    private Map<String, DenominationStorage> cashStorage;
+    private final Map<String, DenominationStorage> cashStorage;
 
     /**
      * Creates new {@link HashMap} object to store cash information in the format of &lt;Currency, {@link

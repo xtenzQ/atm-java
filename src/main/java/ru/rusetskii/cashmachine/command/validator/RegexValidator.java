@@ -7,7 +7,7 @@ package ru.rusetskii.cashmachine.command.validator;
  */
 public class RegexValidator implements Validator {
 
-    private String regex;
+    private final String regex;
 
     /**
      * Creates the Regex Validator

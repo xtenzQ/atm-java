@@ -3,12 +3,12 @@ package ru.rusetskii.cashmachine.cash_operation;
 import java.util.*;
 
 /**
- * Represents banknotes of the specific currency stored by its denomination
- * Is unit of a {@link CashStorage} class
+ * Represents banknotes of the specific currency stored by its denomination Is unit of a {@link CashStorage} class
  * <p>
  * Denomination Storage implements methods to work with its internal storage which is similar to {@link CashStorage}
- *
- * Also, class implements {@link Cloneable} interface to override {@link #clone} method so we can clone its field as well.
+ * <p>
+ * Also, class implements {@link Cloneable} interface to override {@link #clone} method so we can clone its field as
+ * well.
  *
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
@@ -16,8 +16,8 @@ public class DenominationStorage implements Cloneable {
     private SortedMap<Integer, Integer> denominationStorage;
 
     /**
-     * Creates {@link TreeMap} to store banknotes in a reverse order to maintain withdrawal principle
-     * to withdraw bigger banknotes first
+     * Creates {@link TreeMap} to store banknotes in a reverse order to maintain withdrawal principle to withdraw bigger
+     * banknotes first
      */
     public DenominationStorage() {
         this.denominationStorage = new TreeMap<>(Collections.reverseOrder());
@@ -42,7 +42,7 @@ public class DenominationStorage implements Cloneable {
      * If all banknotes of the specified denomination are withdrawn, remove the denomination from the list
      *
      * @param denomination banknote denomination
-     * @param amount cash amount to subtract
+     * @param amount       cash amount to subtract
      */
     public void subByDenomination(int denomination, int amount) {
         int cashAmountOfCurrentDenomination = getAmountByDenomination(denomination);
@@ -153,8 +153,7 @@ public class DenominationStorage implements Cloneable {
 
         if (object instanceof Map) {
             return object.equals(this.get());
-        }
-        else {
+        } else {
             SortedMap<Integer, Integer> objectMap = ((DenominationStorage) object).get();
             SortedMap<Integer, Integer> me = this.get();
             return objectMap.equals(me);

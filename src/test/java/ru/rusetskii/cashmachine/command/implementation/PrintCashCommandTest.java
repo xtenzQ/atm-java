@@ -2,9 +2,7 @@ package ru.rusetskii.cashmachine.command.implementation;
 
 import org.junit.Test;
 import ru.rusetskii.cashmachine.CashMachine;
-import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

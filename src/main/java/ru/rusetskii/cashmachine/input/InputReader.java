@@ -11,11 +11,10 @@ import java.util.Scanner;
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class InputReader implements InputSystem {
-    private Scanner in;
+    private final Scanner in;
 
     /**
-     * Creates input stream object
-     * Initializes new {@link Scanner}
+     * Creates input stream object Initializes new {@link Scanner}
      *
      * @param stream input stream-
      */
@@ -53,9 +52,6 @@ public class InputReader implements InputSystem {
      */
     @Override
     public boolean inputAvailable() {
-        if (in.hasNextLine()) {
-            return true;
-        }
-        return false;
+        return in.hasNextLine();
     }
 }

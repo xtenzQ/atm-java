@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static ru.rusetskii.cashmachine.output.MessageConstants.*;
+import static ru.rusetskii.cashmachine.output.MessageConstants.ERROR;
+import static ru.rusetskii.cashmachine.output.MessageConstants.OK;
 
 /**
  * Provides console output
@@ -13,7 +14,7 @@ import static ru.rusetskii.cashmachine.output.MessageConstants.*;
  */
 public class OutputWriter implements OutputSystem {
 
-    private OutputStream stream;
+    private final OutputStream stream;
 
     /**
      * Creates ConsoleOutput object
@@ -26,21 +27,18 @@ public class OutputWriter implements OutputSystem {
 
     /**
      * Send OK message to the output
-     *
      */
     @Override
     public void sendOk() throws OutputException {
         try {
             stream.write((OK + "\n").getBytes(StandardCharsets.UTF_8));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new OutputException(e);
         }
     }
 
     /**
      * Send ERROR message to the output
-     *
      */
     @Override
     public void sendError() throws OutputException {

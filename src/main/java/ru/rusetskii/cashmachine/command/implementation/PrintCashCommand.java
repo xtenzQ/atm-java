@@ -15,10 +15,13 @@ public class PrintCashCommand extends Command {
     /**
      * Creates print cash command
      */
-    public PrintCashCommand() { super("?"); }
+    public PrintCashCommand() {
+        super("?");
+    }
 
     /**
      * Calls business logic method to print balance
+     *
      * @param cashMachine business logic methods execution
      * @throws CommandExecutionException exception thrown during command execution
      */

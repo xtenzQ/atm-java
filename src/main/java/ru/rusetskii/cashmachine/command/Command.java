@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Command is the abstract base class for all commands which allows application to execute different business logic
- * A Command object encapsulates the state information needed for the various command operations.
- * This state information includes:
+ * Command is the abstract base class for all commands which allows application to execute different business logic A
+ * Command object encapsulates the state information needed for the various command operations. This state information
+ * includes:
  * <ul>
  *     <li>The Operation code;</li>
  *     <li>The Parameters;</li>
@@ -37,6 +37,7 @@ public abstract class Command {
 
     /**
      * Builds Command with the specified operation
+     *
      * @param operation operation code
      */
     public Command(String operation) {
@@ -47,7 +48,7 @@ public abstract class Command {
     /**
      * Initializes command with the specified operation code and list of validators.
      *
-     * @param operation operation code
+     * @param operation  operation code
      * @param validators the list of validators
      * @see Validator
      */
@@ -84,8 +85,8 @@ public abstract class Command {
     }
 
     /**
-     * Implements business logic of the command
-     * Methods get {@link CashMachine} as an argument, so it allows transferring management to the main program
+     * Implements business logic of the command Methods get {@link CashMachine} as an argument, so it allows
+     * transferring management to the main program
      *
      * @param cashMachine business logic methods execution
      * @throws CommandExecutionException exception thrown during command execution
@@ -96,9 +97,9 @@ public abstract class Command {
     /**
      * Returns the state of validation
      * <p>
-     * Method checks the presence of validations and their size. If the number of parameters mismatches the number
-     * of validators, return <code>false</code>.
-     *
+     * Method checks the presence of validations and their size. If the number of parameters mismatches the number of
+     * validators, return <code>false</code>.
+     * <p>
      * Also, mind the order of the validators and the parameters.
      *
      * @return <code>true</code> if validation is successful or validators are empty; <code>false</code> otherwise.

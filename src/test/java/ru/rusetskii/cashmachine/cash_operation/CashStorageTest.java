@@ -2,7 +2,9 @@ package ru.rusetskii.cashmachine.cash_operation;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 

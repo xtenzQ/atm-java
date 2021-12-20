@@ -1,7 +1,6 @@
 package ru.rusetskii.cashmachine;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 import ru.rusetskii.cashmachine.input.InputReader;
 import ru.rusetskii.cashmachine.input.InputSystem;
@@ -13,18 +12,14 @@ import java.io.*;
 import static org.junit.Assert.assertTrue;
 
 public class CashMachineTest {
-    private InputSystem inputStream;
-    private OutputSystem outputStream;
-
-    @Before
-    public void setup() throws IOException {
-        inputStream = new InputReader(new FileInputStream("functest/input.txt"));
-        outputStream = new OutputWriter(new FileOutputStream("functest/actual.txt"));
-    }
 
     // functional test
     @Test
     public void testRun() throws IOException {
+
+        InputSystem inputStream = new InputReader(new FileInputStream("functest/input.txt"));
+        OutputSystem outputStream = new OutputWriter(new FileOutputStream("functest/actual.txt"));
+
         CashMachine cashMachine = new CashMachine(inputStream, outputStream);
         cashMachine.run();
 

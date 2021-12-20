@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import ru.rusetskii.cashmachine.cash_operation.CashStorage;
 import ru.rusetskii.cashmachine.cash_operation.DenominationStorage;
 import ru.rusetskii.cashmachine.command.Processor;
-import ru.rusetskii.cashmachine.command.exception.CommandExecutionException;
 import ru.rusetskii.cashmachine.command.exception.InvalidCommandException;
 import ru.rusetskii.cashmachine.input.InputSystem;
 import ru.rusetskii.cashmachine.output.OutputException;
@@ -24,13 +23,13 @@ import java.util.NoSuchElementException;
  *     <li>basic user interface (such as console);</li>
  *     <li>business logic methods;</li>
  * </ul>
- *
+ * <p>
  * Commands pattern implementation
  *
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class CashMachine {
-    private static Logger logger = LogManager.getLogger(CashMachine.class.getName());;
+    private static final Logger logger = LogManager.getLogger(CashMachine.class.getName());
 
     private final InputSystem inputSystem;
     private final OutputSystem outputSystem;
@@ -39,7 +38,7 @@ public class CashMachine {
     /**
      * Creates Cash Machine object and does initialization
      *
-     * @param inputSystem input byte stream
+     * @param inputSystem  input byte stream
      * @param outputSystem output byte stream
      */
     public CashMachine(InputSystem inputSystem, OutputSystem outputSystem) {
@@ -60,8 +59,8 @@ public class CashMachine {
     }
 
     /**
-     * Single step of running loop
-     * *
+     * Single step of running loop *
+     *
      * @throws OutputException if occurred output exception
      */
     public void step() throws OutputException {

@@ -18,11 +18,12 @@ public class GetCashCommand extends Command {
      */
     public GetCashCommand() {
         super("-", new RegexValidator("[A-Z]{3}"),
-              new RegexValidator("[1-9][0-9]*"));
+                new RegexValidator("[1-9][0-9]*"));
     }
 
     /**
      * Calls business logic method to withdraw money from the Cash Machine
+     *
      * @param cashMachine provides Cash Machine to call business logic methods
      * @throws CommandExecutionException exception thrown during command execution
      * @see CashMachine

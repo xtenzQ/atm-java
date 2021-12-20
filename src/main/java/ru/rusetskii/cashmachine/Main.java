@@ -7,17 +7,13 @@ import ru.rusetskii.cashmachine.input.InputSystem;
 import ru.rusetskii.cashmachine.output.OutputSystem;
 import ru.rusetskii.cashmachine.output.OutputWriter;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 /**
  * App runner
  *
  * @author <a href="mailto:rusetscky@outlook.com">Nikita Rusetskii</a>
  */
 public class Main {
-    private static Logger logger = LogManager.getLogger(Main.class.getName());
+    private static final Logger logger = LogManager.getLogger(Main.class.getName());
 
     /**
      * Program entry point
@@ -31,8 +27,7 @@ public class Main {
         try {
             CashMachine cashMachine = new CashMachine(inputReader, outputWriter);
             cashMachine.run();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error("Error during Cash Machine execution : " + e);
         }

@@ -6,6 +6,7 @@ package ru.rusetskii.cashmachine.command.exception;
 public class InvalidCommandException extends Exception {
     /**
      * Creates new Command Execution exception simply by inheriting args from its parent
+     *
      * @param message information message
      */
     public InvalidCommandException(String message) {

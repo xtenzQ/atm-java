@@ -1,7 +1,5 @@
 package ru.rusetskii.cashmachine.output;
 
-import java.io.IOException;
-
 /**
  * Defines interface for output writing system
  *

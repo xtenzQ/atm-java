@@ -19,7 +19,7 @@ public class AddNotesCommand extends Command {
      */
     public AddNotesCommand() {
         super("+", new RegexValidator("[A-Z]{3}"),
-                new SubsetValidator("1","5","10","50","100","500","1000","5000"),
+                new SubsetValidator("1", "5", "10", "50", "100", "500", "1000", "5000"),
                 new RegexValidator("[1-9][0-9]*"));
     }
 
@@ -37,8 +37,7 @@ public class AddNotesCommand extends Command {
             int denomination = Integer.parseInt(getArgs().get(1));
             int amount = Integer.parseInt(getArgs().get(2));
             cashMachine.deposit(currency, denomination, amount);
-        }
-        catch (OutputException e) {
+        } catch (OutputException e) {
             throw new CommandExecutionException(e);
         }
     }

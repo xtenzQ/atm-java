@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class SubsetValidator implements Validator {
 
-    private List<String> values;
+    private final List<String> values;
 
     /**
      * Creates the subset validator
      *
      * @param values the varargs transformed into the list
      */
-    public SubsetValidator(String...values) {
+    public SubsetValidator(String... values) {
         this.values = Arrays.asList(values);
     }
 
